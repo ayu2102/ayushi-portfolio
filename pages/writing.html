@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Writing by Ayushi: design notes, product observations, and selected verses.">
+  <title>Writing - Ayushi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Newsreader:opsz,wght@6..72,400..800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body class="writing-page">
+  <main>
+    <section class="writing-cover" aria-hidden="true">
+      <img src="../assets/writing-cover.png" alt="">
+    </section>
+
+    <header class="article-hero writing-hero">
+      <p class="kicker">Writing</p>
+      <h1>Writing Beyond the Interface.</h1>
+      <p>This is where I keep the observations, product notes, and unfinished thoughts I return to—about systems, people, behaviour, and the small decisions that shape how an experience feels.</p>
+      <p class="writing-hero__support">Two forms of writing: design notes on product thinking, and verses kept closer to home.</p>
+      <div class="writing-index" aria-label="Writing categories">
+        <a class="writing-index__panel" href="#design-notes">
+          <span>01 · DESIGN NOTES · <span data-writing-count="articles">05 ARTICLES</span></span>
+          <p>Product observations, systems, and the questions behind better experiences.</p>
+          <strong>Jump to Design Notes ↓</strong>
+        </a>
+        <a class="writing-index__panel" href="#verses">
+          <span>02 · VERSES · <span data-writing-count="poems">04 POEMS</span></span>
+          <p>Selected poems kept closer to home.</p>
+          <strong>Jump to Verses ↓</strong>
+        </a>
+      </div>
+    </header>
+
+    <section class="article-body writing-section writing-destination" id="design-notes" aria-labelledby="design-notes-title">
+      <div class="writing-path" aria-hidden="true">
+        <span></span>
+        <em>You're here</em>
+      </div>
+      <p class="kicker">Design Notes</p>
+      <div class="writing-section__intro">
+        <h2 id="design-notes-title">Articles on product, UX, systems, and the questions behind better experiences.</h2>
+        <p>Each article opens in a new tab &#8599;</p>
+      </div>
+
+      <div class="writing-list">
+        <article>
+          <span>01</span>
+          <a href="https://ayushii.medium.com/what-changed-over-a-year-from-computer-science-to-ux-design-f40200136dd5" target="_blank" rel="noopener noreferrer">What changed over a year—from Computer Science to UX Design!</a>
+          <time>Aug 13, 2023</time>
+          <a href="https://ayushii.medium.com/what-changed-over-a-year-from-computer-science-to-ux-design-f40200136dd5" target="_blank" rel="noopener noreferrer">Read on Medium &#8599;</a>
+        </article>
+        <article>
+          <span>02</span>
+          <a href="https://ayushii.medium.com/windows-11-a-straightforward-product-teardown-f2e4878ab312" target="_blank" rel="noopener noreferrer">Windows 11: A Straightforward Product Teardown</a>
+          <time>Nov 24, 2024</time>
+          <a href="https://ayushii.medium.com/windows-11-a-straightforward-product-teardown-f2e4878ab312" target="_blank" rel="noopener noreferrer">Read on Medium &#8599;</a>
+        </article>
+        <article>
+          <span>03</span>
+          <a href="https://ayushii.medium.com/swot-analysis-with-a-real-time-example-jobaaj-learning-2a65ef13a596" target="_blank" rel="noopener noreferrer">SWOT Analysis with a Real Time Example—JobAaj Learning!</a>
+          <time>Jun 2, 2024</time>
+          <a href="https://ayushii.medium.com/swot-analysis-with-a-real-time-example-jobaaj-learning-2a65ef13a596" target="_blank" rel="noopener noreferrer">Read on Medium &#8599;</a>
+        </article>
+        <article>
+          <span>04</span>
+          <a href="https://medium.com/design-bootcamp/my-take-on-chatgpt-a-virtual-buddy-98607fa48a1e" target="_blank" rel="noopener noreferrer">My Take On ChatGPT- A Virtual Buddy!</a>
+          <time>Aug 28, 2023</time>
+          <a href="https://medium.com/design-bootcamp/my-take-on-chatgpt-a-virtual-buddy-98607fa48a1e" target="_blank" rel="noopener noreferrer">Read on Medium &#8599;</a>
+        </article>
+        <article>
+          <span>05</span>
+          <a href="https://ayushii.medium.com/the-art-of-storytelling-in-ux-creating-narratives-that-resonates-7e099532fb5" target="_blank" rel="noopener noreferrer">The Art of Storytelling in UX: Creating Narratives that Resonate</a>
+          <time>Jul 23, 2023</time>
+          <a href="https://ayushii.medium.com/the-art-of-storytelling-in-ux-creating-narratives-that-resonates-7e099532fb5" target="_blank" rel="noopener noreferrer">Read on Medium &#8599;</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="article-body verses-section writing-destination" id="verses" aria-labelledby="verses-title">
+      <div class="writing-path" aria-hidden="true">
+        <span></span>
+        <em>You're here</em>
+      </div>
+      <p class="kicker">VERSES</p>
+      <h2 id="verses-title">A small selection of poems.</h2>
+      <p class="verses-support">Open one when you have a moment.</p>
+      <div class="poem-list" id="poemList" hidden></div>
+    </section>
+  </main>
+
+  <div class="poem-overlay" id="poemOverlay" role="dialog" aria-modal="true" aria-labelledby="poemTitle" hidden>
+    <button class="poem-close" type="button" data-poem-close>Close</button>
+    <article class="poem-sheet">
+      <p class="kicker" id="poemMeta">Verse</p>
+      <h2 id="poemTitle"></h2>
+      <div class="poem-scroll">
+        <div class="poem-body" id="poemBody"></div>
+      </div>
+      <nav class="poem-nav" aria-label="Poem navigation">
+        <button type="button" data-poem-prev>Previous</button>
+        <button type="button" data-poem-next>Next</button>
+      </nav>
+    </article>
+  </div>
+
+  <footer class="footer">
+    <p>Designed between meetings, ideas, and too many tabs.</p>
+    <p>&copy; 2026 Ayushi.</p>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+</html>

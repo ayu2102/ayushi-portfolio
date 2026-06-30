@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ayushi is a product designer focused on complex systems, enterprise products, UX strategy, and clear product thinking.">
+  <title>Ayushi - Product Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400..800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    if (window.location.hash) document.documentElement.classList.add("skip-loader");
+  </script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="loader" id="loader" aria-label="Portfolio loading animation">
+    <div class="loader__sky" id="constellation"></div>
+    <div class="loader__blink"></div>
+  </div>
+
+  <header class="site-header" id="siteHeader">
+    <div class="dock-trigger" aria-hidden="true"></div>
+    <a class="standalone-brand" href="#top" aria-label="Ayushi home">Ayushi</a>
+    <div class="header-timezone" aria-label="Current time in India">
+      <time id="newDelhiTime">IST --:--</time>
+      <span>Delhi, India</span>
+    </div>
+    <button class="mobile-menu-toggle" type="button" aria-controls="primaryNav" aria-expanded="false">Menu</button>
+    <nav class="nav-shell" id="primaryNav" aria-label="Primary navigation">
+      <a class="brand" href="#top" aria-label="Ayushi home">Ayushi</a>
+      <div class="nav-links">
+        <a href="#work" data-section="work">Workspace</a>
+        <a href="#teardowns" data-section="teardowns">Teardowns</a>
+        <a href="#about" data-section="about">About</a>
+        <a href="#contact" data-section="contact">Contact</a>
+        <a href="pages/writing.html">Writing</a>
+      </div>
+      <a class="button button--small" href="assets/Ayushi-Resume.pdf" target="_blank" rel="noreferrer">Resume &#8599;</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero section" id="hero" aria-labelledby="hero-title">
+      <div class="hero__background" aria-hidden="true"></div>
+      <div class="hero__content">
+        <div class="eyebrow">Currently Designing at Bigword</div>
+        <h1 id="hero-title">Designing clarity for products, systems, and the people using them.</h1>
+        <div class="hero__lower">
+          <p class="hero__copy">Helping teams make complex products feel <span class="hero__word-slot" aria-live="polite"><span id="heroWord">intuitive.</span><span class="hero__cursor" aria-hidden="true"></span></span></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section work" id="work" aria-labelledby="work-title">
+      <div class="section-heading section-heading--stacked">
+        <div>
+          <p class="kicker">WORKSPACE</p>
+          <h2 id="work-title">Work Shaped Around Complexity</h2>
+          <p class="section-deck">Different industries. Similar challenge. Turning complexity into products people can actually understand.</p>
+        </div>
+      </div>
+      <div class="workspace-stack">
+        <article class="workspace-card workspace-card--wordsynk">
+          <div class="workspace-card__top">
+            <span class="workspace-card__number">WORKSPACE 001</span>
+            <span class="status-pill is-progress">In Progress</span>
+          </div>
+          <div class="workspace-card__heading">
+            <h3>WordSynk</h3>
+            <p><span>Product Designer</span><span>2025 &mdash; Present</span></p>
+          </div>
+          <div class="workspace-card__body">
+            <div>
+              <span>Challenge</span>
+              <p>Modernizing a legacy enterprise platform serving governments, global businesses, and thousands of linguists without disrupting critical daily operations.</p>
+            </div>
+            <div>
+              <span>Contribution</span>
+              <p>Leading end-to-end product design across discovery, workflow redesign, accessibility improvements, and design system evolution for multiple user groups.</p>
+            </div>
+            <div>
+              <span>Outcome</span>
+              <p>An ongoing platform modernization focused on improving accessibility, consistency, and operational efficiency across customer and enterprise experiences.</p>
+            </div>
+          </div>
+          <div class="workspace-card__footer">
+            <a class="card-cta card-cta--dark" href="pages/wordsynk.html">View Project &rarr;</a>
+          </div>
+        </article>
+
+        <article class="workspace-card workspace-card--path2study">
+          <div class="workspace-card__top">
+            <span class="workspace-card__number">WORKSPACE 002</span>
+            <span class="status-pill is-success">Delivered</span>
+          </div>
+          <div class="workspace-card__heading">
+            <h3>Path2Study</h3>
+            <p><span>UI/UX Designer</span><span>2024</span></p>
+          </div>
+          <div class="workspace-card__body">
+            <div>
+              <span>Challenge</span>
+              <p>Students planning to study in the USA struggled to find trustworthy scholarship and education loan information across fragmented sources.</p>
+            </div>
+            <div>
+              <span>Contribution</span>
+              <p>Led the end-to-end product design across the student-facing website, profile flows, scholarship discovery experience, and internal admin portal.</p>
+            </div>
+            <div>
+              <span>Outcome</span>
+              <p>Created a scalable product foundation that simplified USA scholarship discovery, education loan exploration, application workflows, and internal platform management.</p>
+            </div>
+          </div>
+          <div class="workspace-card__footer">
+            <a class="card-cta card-cta--dark" href="pages/path2study.html">View Project &rarr;</a>
+          </div>
+        </article>
+
+        <article class="workspace-card workspace-card--factseal">
+          <div class="workspace-card__top">
+            <span class="workspace-card__number">WORKSPACE 003</span>
+            <span class="status-pill is-success">Completed</span>
+          </div>
+          <div class="workspace-card__heading">
+            <h3>FactSeal</h3>
+            <p><span>Associate UI/UX Designer</span><span>2022</span></p>
+          </div>
+          <div class="workspace-card__body">
+            <div>
+              <span>Challenge</span>
+              <p>The existing app only verified a candidate's current location, leaving the rest of the background screening process fragmented.</p>
+            </div>
+            <div>
+              <span>Contribution</span>
+              <p>Redesigned the mobile app, internal web portal, verification flows, logo, and app store assets into one connected product experience.</p>
+            </div>
+            <div>
+              <span>Outcome</span>
+              <p>Expanded the product into a complete verification platform covering identity, education, employment, references, documents, consent, and location checks.</p>
+            </div>
+          </div>
+          <div class="workspace-card__footer">
+            <a class="card-cta card-cta--dark" href="pages/factseal.html">View Project &rarr;</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section teardowns" id="teardowns" aria-labelledby="teardown-title">
+      <div class="section-heading section-heading--stacked">
+        <div>
+          <p class="kicker">PRODUCT TEARDOWNS</p>
+          <h2 id="teardown-title">How I Think About Products</h2>
+          <p class="section-deck">A small collection of product observations where I study familiar interfaces, identify hidden friction, and propose focused improvements.</p>
+        </div>
+      </div>
+      <div class="work-grid teardown-interactive">
+        <div class="teardown-list" role="tablist" aria-label="Product teardowns">
+          <button class="teardown-tab is-active" role="tab" aria-selected="true" data-teardown="windows11">
+            <span>Windows 11</span>
+            <small>001</small>
+            <p>Familiar systems can still create friction when old patterns and newer behaviours sit side by side.</p>
+          </button>
+          <button class="teardown-tab" role="tab" aria-selected="false" data-teardown="irctc">
+            <span>IRCTC</span>
+            <small>002</small>
+            <p>A high-pressure booking experience where people need context, reassurance, and clearer journey states.</p>
+          </button>
+          <button class="teardown-tab" role="tab" aria-selected="false" data-teardown="gpay">
+            <span>Google Pay</span>
+            <small>003</small>
+            <p>Fast payments still need visible feedback, clear confirmation, and moments that build trust.</p>
+          </button>
+        </div>
+
+        <article class="project-preview teardown-preview is-windows11" id="teardownPreview">
+          <div class="preview-heading">
+            <div>
+              <p class="preview-kicker" id="teardownKicker">Teardown 001</p>
+              <h3 id="teardownTitle">Windows 11</h3>
+            </div>
+          </div>
+          <div class="preview-body">
+            <div>
+              <span>Observation</span>
+              <p id="teardownObservation">Windows 11 carries decades of user familiarity, but familiar systems can still create friction when old interaction patterns and newer behaviours sit side by side.</p>
+            </div>
+            <div>
+              <span>Insight</span>
+              <p id="teardownInsight">Users do not resist change itself. They resist losing predictability. When navigation, settings, and task entry points shift without enough contextual support, even small changes can feel heavier than they are.</p>
+            </div>
+            <div>
+              <span>Opportunity</span>
+              <p id="teardownOpportunity">Improve feature discovery through contextual entry points, clearer system feedback, and progressive guidance that respects existing user habits instead of forcing users to relearn familiar workflows.</p>
+            </div>
+          </div>
+          <div class="teardown-preview__footer">
+            <a class="card-cta card-cta--dark" id="teardownLink" href="https://drive.google.com/file/d/1tIHihHxlXgY_8Tzstn_UuutYuvA_2rXF/view" target="_blank" rel="noopener noreferrer">Open Deck &#8599;</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section care" aria-labelledby="care-title">
+      <div class="section-heading section-heading--stacked">
+        <div>
+          <p class="kicker">APPROACH</p>
+          <h2 id="care-title">What I Care About</h2>
+          <p class="section-deck">I believe good products don't ask users to think harder — they remove unnecessary thinking altogether.</p>
+          <p class="section-deck section-deck--wide">Whether I'm designing enterprise software, internal tools, or customer-facing products, I'm interested in reducing complexity before adding functionality. Every decision begins with understanding how people think, what slows them down, and how the experience can become more intuitive without becoming simplistic.</p>
+        </div>
+      </div>
+      <div class="care-grid">
+        <article>
+          <span>01</span>
+          <h3>Systems Thinking</h3>
+          <p>Every interface belongs to a larger ecosystem. I look at relationships between screens, workflows, states, and people before refining visuals.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h3>Accessibility</h3>
+          <p>Accessible design is not a compliance layer. It improves clarity, hierarchy, usability, and trust for everyone.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h3>Clarity</h3>
+          <p>The best products feel obvious. Behind that simplicity is structure, prioritization, and careful removal of unnecessary decisions.</p>
+        </article>
+        <article>
+          <span>04</span>
+          <h3>Decision Clarity</h3>
+          <p>Every unnecessary decision creates friction. I design to reduce choices, surface what matters, and help people move forward with confidence.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section principles" aria-labelledby="principles-title">
+      <div class="principles__intro">
+        <p class="kicker">DESIGN PRINCIPLES</p>
+        <h2 id="principles-title">Principles I Don’t Compromise On</h2>
+        <p class="section-deck">The rules I return to when complexity, constraints, and competing priorities demand a clearer decision.</p>
+      </div>
+      <div class="principles__list">
+        <article class="principle-panel">
+          <span>01</span>
+          <h3>Don’t Break What Already Works.</h3>
+          <p>Existing behavior carries trust. Improve carefully before replacing familiar patterns.</p>
+        </article>
+        <article class="principle-panel">
+          <span>02</span>
+          <h3>Reduce Cognitive Load.</h3>
+          <p>Users should spend energy on their goal, not on understanding the interface.</p>
+        </article>
+        <article class="principle-panel">
+          <span>03</span>
+          <h3>Build Systems, Not Screens.</h3>
+          <p>A good screen solves one moment. A good system keeps the product coherent as it grows.</p>
+        </article>
+        <article class="principle-panel">
+          <span>04</span>
+          <h3>Reduce, Then Refine.</h3>
+          <p>Remove unnecessary complexity before polishing the details that remain.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section about" id="about" aria-labelledby="about-title">
+      <div class="about-media">
+        <div class="portrait-frame">
+          <img src="assets/ayushi-portrait.png" alt="Ayushi" onerror="this.closest('.portrait-frame').classList.add('is-missing')">
+        </div>
+        <p>Usually designing. Occasionally writing poems. Always overthinking systems.</p>
+      </div>
+      <div class="about-copy">
+        <p class="kicker">About</p>
+        <h2 id="about-title">The hours that don't belong to work.</h2>
+        <p>Outside of product design, I spend a lot of time observing people, writing fragments of thought, and noticing the small details that make experiences stay with us.</p>
+        <p>I'm fascinated by the psychology of decision-making—the invisible cues that make people hesitate, commit, trust, or turn away.</p>
+        <p>Design is one way I make sense of complexity. Writing is another.</p>
+        <div class="about-actions">
+          <a class="writing-cta writing-cta--primary" href="assets/Ayushi-Resume.pdf" target="_blank" rel="noreferrer">Download Resume &#8599;</a>
+          <a class="writing-cta" href="pages/writing.html">Explore Writing &#8599;</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section contact" id="contact" aria-labelledby="contact-title">
+      <div class="contact-copy">
+        <p class="kicker">Contact</p>
+        <h2 id="contact-title">I’m just a message away.<br><span>Come say hi.</span></h2>
+        <p>You’ve seen the work.</p>
+        <p>Questions, ideas, opportunities—my inbox handles all three.</p>
+      </div>
+      <div class="contact-card">
+        <a href="mailto:ayushiiatwork@gmail.com">Email</a>
+        <a href="https://www.linkedin.com/in/ayushiiatwork/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="pages/writing.html">Writing</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Designed between meetings, ideas, and too many tabs.</p>
+    <p>&copy; 2026 Ayushi.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
