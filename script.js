@@ -494,6 +494,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ensureGlobalFooter();
   runConstellationLoader();
   runHeroWordCycle();
+  setupHeroPortraitReveal();
   setupDockNavigation();
   setupNewDelhiClock();
   setupProjects();
@@ -695,6 +696,158 @@ function runHeroWordCycle() {
   };
 
   window.setTimeout(eraseWord, 4600);
+}
+
+function setupHeroPortraitReveal() {
+  const hero = document.getElementById("hero");
+  const layer = hero?.querySelector(".hero__portrait-reveal");
+  const image = layer?.querySelector("img");
+  const content = hero?.querySelector(".hero__content");
+  if (!hero || !layer || !image || !content) return;
+
+  const touchDevice = window.matchMedia("(hover: none), (pointer: coarse)").matches;
+  if (touchDevice) return;
+
+  const rightZoneStart = 0.38;
+  const hintPosition = { x: 0.7, y: 0.46 };
+  const trailLifetime = 820;
+  const brushRadius = 148;
+  const trail = [];
+  let hideTimer = 0;
+  let trailFrame = 0;
+  let lastPoint = null;
+  let pointerActive = false;
+
+  const getReadableTextRects = (element) => {
+    if (!element) return [];
+
+    const range = document.createRange();
+    range.selectNodeContents(element);
+    const rects = Array.from(range.getClientRects()).filter((rect) => rect.width && rect.height);
+    range.detach();
+
+    return rects.length ? rects : [element.getBoundingClientRect()];
+  };
+
+  const getTextSafeRects = () => [
+      content.querySelector(".eyebrow"),
+      ...content.querySelectorAll("h1 span"),
+      content.querySelector(".hero__copy")
+    ]
+    .filter(Boolean)
+    .flatMap(getReadableTextRects);
+
+  const setHintPosition = () => {
+    layer.style.setProperty("--hero-portrait-x", `${hintPosition.x * 100}%`);
+    layer.style.setProperty("--hero-portrait-y", `${hintPosition.y * 100}%`);
+  };
+
+  const clearTrail = () => {
+    trail.length = 0;
+    lastPoint = null;
+    pointerActive = false;
+    image.style.removeProperty("-webkit-mask-image");
+    image.style.removeProperty("mask-image");
+    image.style.removeProperty("-webkit-mask-size");
+    image.style.removeProperty("mask-size");
+    image.style.removeProperty("-webkit-mask-position");
+    image.style.removeProperty("mask-position");
+    if (trailFrame) {
+      window.cancelAnimationFrame(trailFrame);
+      trailFrame = 0;
+    }
+  };
+
+  const showHint = () => {
+    window.clearTimeout(hideTimer);
+    clearTrail();
+    setHintPosition();
+    hero.classList.remove("is-portrait-active");
+    hero.classList.add("is-portrait-hint");
+  };
+
+  const renderTrail = (now = performance.now()) => {
+    for (let index = trail.length - 1; index >= 0; index -= 1) {
+      const age = now - trail[index].time;
+      if (age > trailLifetime) trail.splice(index, 1);
+    }
+
+    if (trail.length) {
+      const masks = trail.map((point, index) => {
+        const age = now - point.time;
+        const life = clamp(1 - age / trailLifetime, 0, 1);
+        const isNewest = index === trail.length - 1 && pointerActive;
+        const alpha = isNewest ? 1 : Math.min(0.72, 0.12 + life * 0.5);
+        const radius = brushRadius * (isNewest ? 1.08 : 0.76 + life * 0.18);
+        return `radial-gradient(circle ${radius.toFixed(1)}px at ${point.x.toFixed(1)}px ${point.y.toFixed(1)}px, rgba(0, 0, 0, ${alpha.toFixed(3)}) 0%, rgba(0, 0, 0, ${(alpha * 0.92).toFixed(3)}) 32%, rgba(0, 0, 0, ${(alpha * 0.46).toFixed(3)}) 66%, transparent 100%)`;
+      }).join(", ");
+
+      image.style.setProperty("-webkit-mask-image", masks);
+      image.style.setProperty("mask-image", masks);
+      image.style.setProperty("-webkit-mask-size", "auto");
+      image.style.setProperty("mask-size", "auto");
+      image.style.setProperty("-webkit-mask-position", "0 0");
+      image.style.setProperty("mask-position", "0 0");
+      trailFrame = window.requestAnimationFrame(renderTrail);
+      return;
+    }
+
+    image.style.setProperty("-webkit-mask-image", "radial-gradient(circle 0px at 50% 50%, transparent 100%)");
+    image.style.setProperty("mask-image", "radial-gradient(circle 0px at 50% 50%, transparent 100%)");
+    trailFrame = 0;
+    if (!pointerActive) showHint();
+  };
+
+  const addTrailPoint = (x, y) => {
+    const now = performance.now();
+    const shouldAdd = !lastPoint ||
+      Math.hypot(x - lastPoint.x, y - lastPoint.y) > 8 ||
+      now - lastPoint.time > 34;
+
+    if (!shouldAdd) return;
+
+    lastPoint = { x, y, time: now };
+    trail.push(lastPoint);
+    if (trail.length > 14) trail.shift();
+    if (!trailFrame) trailFrame = window.requestAnimationFrame(renderTrail);
+  };
+
+  const updatePortrait = (event) => {
+    const heroRect = hero.getBoundingClientRect();
+    const imageRect = image.getBoundingClientRect();
+    const textSafeRects = getTextSafeRects();
+    const x = event.clientX - heroRect.left;
+    const isPortraitArea =
+      event.clientX >= imageRect.left - 24 &&
+      event.clientX <= imageRect.right + 24 &&
+      event.clientY >= imageRect.top - 24 &&
+      event.clientY <= imageRect.bottom + 24;
+    const isRightZone = x >= heroRect.width * rightZoneStart || isPortraitArea;
+    const isTextSafe = textSafeRects.some((rect) =>
+      event.clientX >= rect.left - 18 &&
+      event.clientX <= rect.right + 18 &&
+      event.clientY >= rect.top - 22 &&
+      event.clientY <= rect.bottom + 22
+    );
+
+    if (!isRightZone || isTextSafe) {
+      showHint();
+      return;
+    }
+
+    pointerActive = true;
+    window.clearTimeout(hideTimer);
+    hero.classList.remove("is-portrait-hint");
+    hero.classList.add("is-portrait-active");
+    addTrailPoint(event.clientX - imageRect.left, event.clientY - imageRect.top);
+  };
+
+  showHint();
+  hero.addEventListener("mousemove", updatePortrait);
+  hero.addEventListener("mouseleave", () => {
+    pointerActive = false;
+    hideTimer = window.setTimeout(showHint, 760);
+  });
 }
 
 function setupHeroClarityField() {
