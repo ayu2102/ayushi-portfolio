@@ -9,6 +9,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400..800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script>
+    document.documentElement.setAttribute(
+      "data-theme",
+      window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+    );
     if (window.location.hash) document.documentElement.classList.add("skip-loader");
   </script>
   <link rel="stylesheet" href="style.css">
@@ -44,7 +48,8 @@
     <section class="hero section is-portrait-hint" id="hero" aria-labelledby="hero-title">
       <div class="hero__background" aria-hidden="true"></div>
       <div class="hero__portrait-reveal" aria-hidden="true">
-        <img src="hero-portrait.png?v=hero-reveal-20260724" alt="">
+        <img src="assets/hero-portrait.png?v=hero-reveal-20260724" alt="">
+        <canvas class="hero__portrait-scratch" width="720" height="900"></canvas>
         <div class="hero__portrait-glow"></div>
       </div>
       <div class="hero__content">
@@ -56,6 +61,10 @@
         </h1>
         <div class="hero__lower">
           <p class="hero__copy">Helping teams make complex products feel <span class="hero__word-slot" aria-live="polite"><span id="heroWord">intuitive.</span><span class="hero__cursor" aria-hidden="true"></span></span></p>
+        </div>
+        <div class="hero__mobile-actions" aria-label="Hero actions">
+          <a class="card-cta card-cta--dark" href="#work">View Work</a>
+          <a class="card-cta" href="assets/Ayushi-Resume.pdf" target="_blank" rel="noreferrer">Resume &#8599;</a>
         </div>
       </div>
     </section>

@@ -490,22 +490,41 @@ const teardownData = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+  setupSystemTheme();
   ensureGlobalHeader();
   ensureGlobalFooter();
   runConstellationLoader();
   runHeroWordCycle();
   setupHeroPortraitReveal();
+  setupMobileHeroScratchReveal();
   setupDockNavigation();
   setupNewDelhiClock();
   setupProjects();
   setupTeardowns();
   setupWritingIndexCounts();
+  setupWritingListSmoothScroll();
   setupScrollSpy();
   setupTeardownReveal();
   setupPrinciplesTracker();
   setupSpotlightCards();
   setupPoemOverlay();
 });
+
+function setupSystemTheme() {
+  const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+  const applyTheme = () => {
+    document.documentElement.setAttribute("data-theme", mediaQuery.matches ? "dark" : "light");
+  };
+
+  applyTheme();
+
+  if (typeof mediaQuery.addEventListener === "function") {
+    mediaQuery.addEventListener("change", applyTheme);
+  } else if (typeof mediaQuery.addListener === "function") {
+    mediaQuery.addListener(applyTheme);
+  }
+}
 
 function ensureGlobalHeader() {
   if (document.getElementById("siteHeader")) return;
@@ -847,6 +866,129 @@ function setupHeroPortraitReveal() {
   hero.addEventListener("mouseleave", () => {
     pointerActive = false;
     hideTimer = window.setTimeout(showHint, 760);
+  });
+}
+
+function setupMobileHeroScratchReveal() {
+  const hero = document.getElementById("hero");
+  const layer = hero?.querySelector(".hero__portrait-reveal");
+  const canvas = layer?.querySelector(".hero__portrait-scratch");
+  if (!hero || !layer || !canvas) return;
+
+  const mobileQuery = window.matchMedia("(max-width: 900px), (hover: none) and (pointer: coarse)");
+  if (!mobileQuery.matches) return;
+
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let width = 0;
+  let height = 0;
+  let animationFrame = 0;
+  let startTime = performance.now();
+
+  const paintCover = () => {
+    ctx.globalCompositeOperation = "source-over";
+    ctx.clearRect(0, 0, width, height);
+
+    const paper = ctx.createLinearGradient(0, 0, width, height);
+    paper.addColorStop(0, "rgba(246, 245, 240, 0.97)");
+    paper.addColorStop(0.52, "rgba(235, 234, 228, 0.93)");
+    paper.addColorStop(1, "rgba(216, 222, 201, 0.86)");
+    ctx.fillStyle = paper;
+    ctx.fillRect(0, 0, width, height);
+
+    ctx.save();
+    ctx.globalAlpha = 0.28;
+    ctx.strokeStyle = "rgba(104, 119, 86, 0.09)";
+    ctx.lineWidth = 1;
+    for (let x = 0; x <= width; x += 34) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, height);
+      ctx.stroke();
+    }
+    for (let y = 0; y <= height; y += 34) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(width, y);
+      ctx.stroke();
+    }
+    ctx.restore();
+
+    const glow = ctx.createRadialGradient(width * 0.32, height * 0.16, 0, width * 0.32, height * 0.16, Math.max(width, height) * 0.46);
+    glow.addColorStop(0, "rgba(250, 250, 250, 0.4)");
+    glow.addColorStop(0.42, "rgba(240, 217, 168, 0.18)");
+    glow.addColorStop(1, "rgba(240, 217, 168, 0)");
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, width, height);
+  };
+
+  const revealAt = (x, y, radius) => {
+    ctx.save();
+    ctx.globalCompositeOperation = "destination-out";
+    const reveal = ctx.createRadialGradient(x, y, 0, x, y, radius);
+    reveal.addColorStop(0, "rgba(0, 0, 0, 0.88)");
+    reveal.addColorStop(0.42, "rgba(0, 0, 0, 0.7)");
+    reveal.addColorStop(0.76, "rgba(0, 0, 0, 0.22)");
+    reveal.addColorStop(1, "rgba(0, 0, 0, 0)");
+    ctx.fillStyle = reveal;
+    ctx.beginPath();
+    ctx.arc(x, y, radius, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  };
+
+  const resizeCanvas = () => {
+    const rect = layer.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    width = Math.max(1, Math.round(rect.width));
+    height = Math.max(1, Math.round(rect.height));
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    paintCover();
+
+    const baseRadius = Math.max(78, Math.min(width, height) * 0.2);
+    revealAt(width * 0.38, height * 0.34, baseRadius);
+    if (reducedMotion) revealAt(width * 0.62, height * 0.54, baseRadius * 0.92);
+  };
+
+  const animate = (now) => {
+    const seconds = (now - startTime) / 1000;
+    const radius = Math.max(82, Math.min(width, height) * 0.2);
+    const x = width * (0.48 + Math.sin(seconds * 0.62) * 0.24 + Math.sin(seconds * 0.29) * 0.09);
+    const y = height * (0.48 + Math.cos(seconds * 0.54) * 0.22 + Math.sin(seconds * 0.37 + 1.7) * 0.08);
+
+    revealAt(x, y, radius);
+    animationFrame = window.requestAnimationFrame(animate);
+  };
+
+  resizeCanvas();
+
+  if (!reducedMotion) {
+    animationFrame = window.requestAnimationFrame(animate);
+  }
+
+  window.addEventListener("resize", resizeCanvas);
+  if ("ResizeObserver" in window) {
+    const observer = new ResizeObserver(() => resizeCanvas());
+    observer.observe(layer);
+  }
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden && animationFrame) {
+      window.cancelAnimationFrame(animationFrame);
+      animationFrame = 0;
+      return;
+    }
+
+    if (!document.hidden && !animationFrame && !reducedMotion) {
+      startTime = performance.now();
+      animationFrame = window.requestAnimationFrame(animate);
+    }
   });
 }
 
@@ -1313,6 +1455,50 @@ function setupWritingIndexCounts() {
 
   if (articleTarget) articleTarget.textContent = formatCount(articleCount, "ARTICLE", "ARTICLES");
   if (poemTarget) poemTarget.textContent = formatCount(poems.length, "POEM", "POEMS");
+}
+
+function setupWritingListSmoothScroll() {
+  const list = document.querySelector(".writing-list");
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!list || reducedMotion) return;
+
+  let targetScroll = list.scrollTop;
+  let animationFrame = null;
+
+  const maxScroll = () => Math.max(0, list.scrollHeight - list.clientHeight);
+
+  const animateScroll = () => {
+    const distance = targetScroll - list.scrollTop;
+
+    if (Math.abs(distance) < 0.5) {
+      list.scrollTop = targetScroll;
+      animationFrame = null;
+      return;
+    }
+
+    list.scrollTop += distance * 0.18;
+    animationFrame = requestAnimationFrame(animateScroll);
+  };
+
+  list.addEventListener("wheel", (event) => {
+    const maximum = maxScroll();
+    if (!maximum || Math.abs(event.deltaY) < 1) return;
+
+    const isAtTop = list.scrollTop <= 0 && event.deltaY < 0;
+    const isAtBottom = list.scrollTop >= maximum - 1 && event.deltaY > 0;
+    if (isAtTop || isAtBottom) return;
+
+    event.preventDefault();
+    targetScroll = Math.max(0, Math.min(maximum, targetScroll + event.deltaY));
+
+    if (!animationFrame) {
+      animationFrame = requestAnimationFrame(animateScroll);
+    }
+  }, { passive: false });
+
+  list.addEventListener("scroll", () => {
+    if (!animationFrame) targetScroll = list.scrollTop;
+  }, { passive: true });
 }
 
 function setupScrollSpy() {

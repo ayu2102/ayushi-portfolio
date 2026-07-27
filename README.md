@@ -1,11 +1,27 @@
-# Assets
+# Ayushi Portfolio
 
-Add Ayushi's real photograph as:
+Personal product design portfolio for Ayushi, built as a plain HTML/CSS/JavaScript website.
 
-`assets/ayushi.jpg`
+## Run Locally
 
-Add the resume PDF as:
+Open `index.html` directly in a browser, or run a simple static server from the project folder:
 
-`assets/Ayushi-Resume.pdf`
+```bash
+python3 -m http.server 8000
+```
 
-The site already points to these filenames.
+Then visit:
+
+```text
+http://localhost:8000
+```
+
+## Deploy With Vercel
+
+1. Push this folder to a GitHub repository.
+2. In Vercel, choose **Add New Project** and import the GitHub repository.
+3. Use framework preset **Other**.
+4. Leave the build command empty.
+5. Set the output directory to `.`.
+6. Deploy.
+

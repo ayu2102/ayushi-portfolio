@@ -17,6 +17,22 @@
   --sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #181712;
+  --text: #f3efe5;
+  --muted: #b7b0a2;
+  --card: #25231c;
+  --card-light: #2d2a22;
+  --paper: #211f19;
+  --accent: #a7b28c;
+  --accent-dark: #c0cca1;
+  --sage-soft: #4b523b;
+  --clay: #b79b78;
+  --ink-soft: rgba(243, 239, 229, 0.14);
+  --shadow: 0 22px 58px rgba(0, 0, 0, 0.28);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -42,6 +58,16 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+html[data-theme="dark"] body {
+  background:
+    radial-gradient(circle at 12% 28%, rgba(116, 147, 143, 0.09), transparent 26%),
+    radial-gradient(circle at 10% 20%, rgba(104, 119, 86, 0.14), transparent 24%),
+    radial-gradient(circle at 88% 10%, rgba(183, 159, 131, 0.1), transparent 28%),
+    radial-gradient(circle at 82% 72%, rgba(163, 177, 138, 0.08), transparent 30%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.03), transparent 45%),
+    var(--bg);
+}
+
 body::before {
   content: "";
   position: fixed;
@@ -56,6 +82,12 @@ body::before {
   mask-image: linear-gradient(to right, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.72) 38%, black 76%);
 }
 
+html[data-theme="dark"] body::before {
+  background-image:
+    linear-gradient(rgba(192, 204, 161, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(192, 204, 161, 0.048) 1px, transparent 1px);
+}
+
 body::after {
   content: "";
   position: fixed;
@@ -68,6 +100,48 @@ body::after {
     radial-gradient(circle at 32px 6px, rgba(104, 119, 86, 0.16) 0.5px, transparent 0.8px);
   background-size: 42px 42px;
   mask-image: linear-gradient(to right, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.72) 38%, black 76%);
+}
+
+html[data-theme="dark"] body::after {
+  opacity: 0.16;
+  background-image:
+    radial-gradient(circle at 12px 18px, rgba(192, 204, 161, 0.18) 0.6px, transparent 0.8px),
+    radial-gradient(circle at 32px 6px, rgba(192, 204, 161, 0.12) 0.5px, transparent 0.8px);
+}
+
+html[data-theme="dark"] :where(
+  .nav-shell,
+  .project-card,
+  .project-preview,
+  .teardown-tab,
+  .care-card,
+  .principles__intro,
+  .principles__track,
+  .about__image,
+  .about__copy,
+  .contact-card,
+  .writing-index,
+  .writing-list,
+  .writing-list article,
+  .verse-card,
+  .poem-row,
+  .project-meta-card,
+  .case-section,
+  .visual-card,
+  .next-card
+) {
+  border-color: rgba(243, 239, 229, 0.1);
+  background-color: rgba(33, 31, 25, 0.78);
+  box-shadow: var(--shadow);
+}
+
+html[data-theme="dark"] :where(.button, .card-cta--dark) {
+  background: #f3efe5;
+  color: #181712;
+}
+
+html[data-theme="dark"] :where(.card-cta, .article-link, .about-link) {
+  border-color: rgba(243, 239, 229, 0.14);
 }
 
 .site-spotlight {
@@ -607,6 +681,10 @@ img {
   filter: blur(2px);
 }
 
+.hero__portrait-scratch {
+  display: none;
+}
+
 .hero.is-portrait-hint .hero__portrait-reveal {
   --hero-portrait-image-opacity: 0.18;
   opacity: 1;
@@ -714,6 +792,10 @@ img {
 
 .hero__lower {
   display: block;
+}
+
+.hero__mobile-actions {
+  display: none;
 }
 
 .hero__copy {
@@ -2198,6 +2280,34 @@ img {
   display: grid;
   gap: 14px;
   border-top: 0;
+  max-height: 560px;
+  overflow-y: scroll;
+  overscroll-behavior: contain;
+  scroll-behavior: smooth;
+  padding: 0 14px 2px 0;
+  scrollbar-gutter: stable;
+  scrollbar-color: rgba(104, 119, 86, 0.68) rgba(235, 234, 228, 0.78);
+  scrollbar-width: thin;
+}
+
+.writing-list::-webkit-scrollbar {
+  width: 10px;
+}
+
+.writing-list::-webkit-scrollbar-track {
+  border-radius: 999px;
+  background: rgba(235, 234, 228, 0.78);
+  margin: 6px 0;
+}
+
+.writing-list::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  border: 2px solid rgba(251, 250, 246, 0.74);
+  background: rgba(104, 119, 86, 0.62);
+}
+
+.writing-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(82, 96, 66, 0.72);
 }
 
 .writing-list article {
@@ -3682,13 +3792,91 @@ body.has-poem-open {
   }
 
   .hero {
+    --mobile-hero-gap: 24px;
     min-height: auto;
     padding-top: calc(96px + env(safe-area-inset-top));
+    padding-bottom: 46px;
     overflow: hidden;
+    align-items: start;
   }
 
   .hero__background {
     inset: 0;
+  }
+
+  .hero__content {
+    order: 1;
+    gap: var(--mobile-hero-gap);
+    padding-top: var(--mobile-hero-gap);
+  }
+
+  .hero .eyebrow {
+    margin: 0;
+  }
+
+  .hero__mobile-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .hero__mobile-actions .card-cta {
+    flex: 1 1 142px;
+    min-height: 48px;
+  }
+
+  .hero__portrait-reveal {
+    --hero-portrait-image-opacity: 1;
+    position: relative;
+    order: 2;
+    z-index: 2;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    width: min(100%, 520px);
+    aspect-ratio: 4 / 5;
+    margin: 30px auto 0;
+    overflow: hidden;
+    border: 1px solid rgba(29, 29, 27, 0.08);
+    border-radius: 28px;
+    background:
+      linear-gradient(135deg, rgba(251, 250, 246, 0.56), rgba(235, 234, 228, 0.32)),
+      var(--paper);
+    box-shadow: 0 18px 44px rgba(36, 34, 30, 0.1);
+    opacity: 1;
+    pointer-events: none;
+  }
+
+  .hero__portrait-reveal img {
+    inset: 0;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    object-fit: cover;
+    object-position: 64% 42%;
+    opacity: 1;
+    filter: saturate(0.82) contrast(0.94) brightness(1.02) sepia(0.04);
+    animation: none;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .hero__portrait-scratch {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background:
+      radial-gradient(circle at 30% 18%, rgba(250, 250, 250, 0.42), transparent 22%),
+      linear-gradient(135deg, rgba(246, 245, 240, 0.96), rgba(235, 234, 228, 0.9));
+  }
+
+  .hero__portrait-glow {
+    display: none;
   }
 
   .hero__lower,
@@ -4631,4 +4819,850 @@ body.has-poem-open {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
+}
+
+/* Final accessibility pass for system dark mode. Keep this at the end so it wins over component-level light surfaces. */
+html[data-theme="dark"] {
+  --bg: #171611;
+  --text: #f6f1e6;
+  --muted: #d2cab9;
+  --card: #242219;
+  --card-light: #2d2a20;
+  --paper: #201e17;
+  --accent: #aab991;
+  --accent-dark: #d4dfb7;
+  --sage-soft: #343c2b;
+  --ink-soft: rgba(246, 241, 230, 0.16);
+}
+
+html[data-theme="dark"] body {
+  color: var(--text);
+  background:
+    radial-gradient(circle at 15% 24%, rgba(104, 119, 86, 0.18), transparent 28%),
+    radial-gradient(circle at 86% 14%, rgba(183, 159, 131, 0.13), transparent 30%),
+    radial-gradient(circle at 80% 78%, rgba(116, 147, 143, 0.1), transparent 30%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.035), transparent 44%),
+    var(--bg);
+}
+
+html[data-theme="dark"] .site-header {
+  color: #fff8ea;
+}
+
+html[data-theme="dark"] .hero__background {
+  background:
+    radial-gradient(circle at 80% 30%, rgba(183, 159, 131, 0.13), transparent 28%),
+    radial-gradient(circle at 24% 44%, rgba(104, 119, 86, 0.16), transparent 30%),
+    linear-gradient(to bottom, rgba(23, 22, 17, 0.08), rgba(23, 22, 17, 0.76) 92%),
+    var(--bg);
+}
+
+html[data-theme="dark"] :where(
+  .site-header,
+  .nav-shell,
+  .mobile-menu-toggle,
+  .project-card,
+  .workspace-card,
+  .project-preview,
+  .teardown-tab,
+  .care-card,
+  .principles__intro,
+  .principles__track,
+  .about__image,
+  .about__copy,
+  .contact-card,
+  .writing-index,
+  .writing-index__panel,
+  .writing-destination,
+  .writing-list,
+  .writing-list article,
+  .verses-section,
+  .verse-card,
+  .poem-row,
+  .poem-sheet,
+  .poem-close,
+  .poem-nav button,
+  .project-meta-card,
+  .case-section,
+  .visual-card,
+  .evidence-block,
+  .case-nav a,
+  .next-card,
+  .project-tab,
+  .case-hero,
+  .case-study-card,
+  .decision-grid article,
+  .feature-grid article,
+  .chip,
+  .tag,
+  .status-pill
+) {
+  border-color: rgba(246, 241, 230, 0.13) !important;
+  background-color: rgba(32, 30, 23, 0.9) !important;
+  color: var(--text);
+}
+
+html[data-theme="dark"] :where(
+  .nav-shell,
+  .project-card,
+  .workspace-card,
+  .project-preview,
+  .teardown-tab,
+  .care-card,
+  .principles__intro,
+  .principles__track,
+  .contact-card,
+  .writing-index,
+  .writing-destination,
+  .writing-list article,
+  .verses-section,
+  .poem-sheet
+) {
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.26);
+}
+
+html[data-theme="dark"] :where(
+  p,
+  .section-deck,
+  .hero__copy,
+  .project-card p,
+  .project-preview p,
+  .teardown-tab p,
+  .care-card p,
+  .principles__intro p,
+  .principle-item p,
+  .about__copy p,
+  .contact-card p,
+  .writing-section__intro p,
+  .writing-index__panel p,
+  .writing-list span,
+  .writing-list time,
+  .poem-row small,
+  .case-intro,
+  .case-study p
+) {
+  color: var(--muted);
+}
+
+html[data-theme="dark"] :where(
+  h1,
+  h2,
+  h3,
+  h4,
+  .brand,
+  .standalone-brand,
+  .project-card h3,
+  .project-preview h3,
+  .teardown-tab span,
+  .care-card h3,
+  .principle-item h3,
+  .writing-list article > a:first-of-type,
+  .poem-row strong,
+  .poem-body
+) {
+  color: var(--text);
+}
+
+html[data-theme="dark"] :where(
+  .kicker,
+  .eyebrow,
+  .preview-kicker,
+  .case-label,
+  .writing-index__panel span,
+  .writing-path em,
+  .teardown-preview .preview-body span
+) {
+  color: var(--accent-dark);
+}
+
+html[data-theme="dark"] :where(.nav-links a) {
+  color: var(--muted);
+  background: rgba(246, 241, 230, 0.045);
+}
+
+html[data-theme="dark"] :where(.nav-links a:hover, .nav-links a.is-active) {
+  color: #171611;
+  background: rgba(212, 223, 183, 0.96);
+  box-shadow: inset 0 0 0 1px rgba(212, 223, 183, 0.24), 0 8px 20px rgba(0, 0, 0, 0.22);
+}
+
+html[data-theme="dark"] :where(.button, .card-cta--dark) {
+  background: rgba(212, 223, 183, 0.96);
+  color: #171611;
+  border-color: rgba(212, 223, 183, 0.28);
+}
+
+html[data-theme="dark"] :where(.button:hover, .card-cta:hover, .card-cta--dark:hover, .writing-list article > a:last-child:hover) {
+  background: #4f6241;
+  color: #fbfaf6;
+  border-color: rgba(170, 185, 145, 0.5);
+}
+
+html[data-theme="dark"] :where(.card-cta, .writing-list article > a:last-child, .about-link, .contact-card a, .case-nav a) {
+  color: var(--text);
+  border-color: rgba(246, 241, 230, 0.16);
+  background: rgba(246, 241, 230, 0.055);
+}
+
+html[data-theme="dark"] :where(.project-tab.is-active, .teardown-tab.is-active, .teardown-tab:hover, .writing-list article:hover, .poem-row:hover) {
+  background-color: rgba(45, 42, 32, 0.98) !important;
+  border-color: rgba(212, 223, 183, 0.28) !important;
+}
+
+html[data-theme="dark"] :where(.status-pill.is-success, .project-status.is-success) {
+  background: rgba(74, 116, 80, 0.28) !important;
+  color: #dcefd0;
+  border-color: rgba(151, 192, 139, 0.38) !important;
+}
+
+html[data-theme="dark"] :where(.status-pill.is-progress, .project-status.is-progress) {
+  background: rgba(65, 104, 155, 0.3) !important;
+  color: #d9e7ff;
+  border-color: rgba(126, 163, 211, 0.42) !important;
+}
+
+html[data-theme="dark"] .writing-list {
+  scrollbar-color: rgba(212, 223, 183, 0.76) rgba(246, 241, 230, 0.08);
+}
+
+html[data-theme="dark"] .writing-list::-webkit-scrollbar-track,
+html[data-theme="dark"] .poem-scroll::-webkit-scrollbar-track {
+  background: rgba(246, 241, 230, 0.08);
+}
+
+html[data-theme="dark"] .writing-list::-webkit-scrollbar-thumb,
+html[data-theme="dark"] .poem-scroll::-webkit-scrollbar-thumb {
+  border-color: rgba(32, 30, 23, 0.95);
+  background: rgba(212, 223, 183, 0.66);
+}
+
+html[data-theme="dark"] :where(.poem-body em, .poem-emphasis) {
+  color: #fff7df;
+}
+
+/* Dark mode contrast correction: override full background shorthands and pseudo-layers. */
+html[data-theme="dark"] .site-header::before {
+  background:
+    linear-gradient(to bottom, rgba(17, 16, 12, 0.98), rgba(17, 16, 12, 0.9) 64%, rgba(17, 16, 12, 0)) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+html[data-theme="dark"] :where(.standalone-brand, .brand, .header-timezone time) {
+  color: #fff8ea !important;
+}
+
+html[data-theme="dark"] .header-timezone span {
+  color: #d8d0bf !important;
+}
+
+html[data-theme="dark"] :where(.nav-shell, .mobile-menu-toggle) {
+  background:
+    linear-gradient(145deg, rgba(45, 42, 32, 0.96), rgba(23, 22, 17, 0.94)),
+    #171611 !important;
+  border-color: rgba(246, 241, 230, 0.18) !important;
+  color: #fff8ea !important;
+  box-shadow:
+    0 18px 44px rgba(0, 0, 0, 0.38),
+    inset 0 1px 0 rgba(246, 241, 230, 0.08) !important;
+}
+
+html[data-theme="dark"] .mobile-menu-toggle {
+  background:
+    linear-gradient(145deg, rgba(58, 54, 42, 0.98), rgba(35, 33, 25, 0.98)),
+    #242219 !important;
+}
+
+html[data-theme="dark"] :where(
+  .workspace-card,
+  .project-card,
+  .project-preview,
+  .project-tab,
+  .teardown-tab,
+  .teardown-preview,
+  .care-card,
+  .principles__intro,
+  .principles__track,
+  .about__image,
+  .about__copy,
+  .contact-card,
+  .writing-index,
+  .writing-index__panel,
+  .writing-destination,
+  .writing-list,
+  .writing-list article,
+  .verses-section,
+  .verse-card,
+  .poem-row,
+  .poem-sheet,
+  .poem-close,
+  .poem-nav button,
+  .project-meta-card,
+  .case-hero,
+  .case-section,
+  .case-study-card,
+  .visual-card,
+  .evidence-block,
+  .decision-grid article,
+  .feature-grid article,
+  .case-nav a,
+  .next-card,
+  .chip,
+  .tag
+) {
+  background:
+    linear-gradient(145deg, rgba(43, 40, 31, 0.97), rgba(20, 19, 15, 0.96)),
+    #15140f !important;
+  border-color: rgba(246, 241, 230, 0.14) !important;
+  color: #fff8ea !important;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.3) !important;
+}
+
+html[data-theme="dark"] :where(
+  .workspace-card p,
+  .workspace-card__heading p,
+  .workspace-card__body p,
+  .project-card p,
+  .project-preview p,
+  .project-tab p,
+  .teardown-tab p,
+  .teardown-preview p,
+  .care-card p,
+  .principles__intro p,
+  .principle-item p,
+  .about__copy p,
+  .contact-card p,
+  .writing-section__intro p,
+  .writing-index__panel p,
+  .article-hero .writing-index__panel p,
+  .writing-list span,
+  .writing-list time,
+  .poem-row small,
+  .case-intro,
+  .case-study p,
+  .section-deck
+) {
+  color: #e5dece !important;
+}
+
+html[data-theme="dark"] :where(
+  .workspace-card h3,
+  .project-card h3,
+  .project-preview h3,
+  .teardown-tab span,
+  .teardown-preview h3,
+  .care-card h3,
+  .principle-item h3,
+  .about__copy h2,
+  .contact-card h2,
+  .writing-index__panel strong,
+  .writing-list article > a:first-of-type,
+  .poem-row strong,
+  .case-hero h1,
+  .case-section h2,
+  .case-study-card h3
+) {
+  color: #fff8ea !important;
+}
+
+html[data-theme="dark"] :where(
+  .kicker,
+  .eyebrow,
+  .preview-kicker,
+  .workspace-card__number,
+  .workspace-card__heading span,
+  .workspace-card__body span,
+  .writing-index__panel span,
+  .case-label,
+  .teardown-preview .preview-body span,
+  .care-card span
+) {
+  color: #d7e8b8 !important;
+}
+
+html[data-theme="dark"] :where(.workspace-card::before, .workspace-card::after) {
+  opacity: 0.2 !important;
+  filter: saturate(0.45) brightness(0.78) contrast(0.94);
+}
+
+html[data-theme="dark"] :where(.teardown-tab::before, .teardown-preview::before, .teardown-preview::after) {
+  opacity: 0.16 !important;
+  filter: saturate(0.45) brightness(0.82) contrast(0.96);
+}
+
+html[data-theme="dark"] :where(.workspace-card::after, .teardown-preview::after) {
+  background-color: rgba(12, 12, 9, 0.38);
+  mix-blend-mode: multiply;
+}
+
+html[data-theme="dark"] .portrait-frame {
+  background:
+    radial-gradient(ellipse at 50% 44%, rgba(62, 58, 45, 0.9), rgba(12, 12, 10, 0.98) 70%),
+    #0e0d0a !important;
+}
+
+html[data-theme="dark"] .portrait-frame::before {
+  background:
+    linear-gradient(rgba(212, 223, 183, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 223, 183, 0.04) 1px, transparent 1px),
+    radial-gradient(ellipse at 48% 46%, rgba(20, 19, 15, 0.96), rgba(20, 19, 15, 0) 68%),
+    #0e0d0a !important;
+}
+
+html[data-theme="dark"] .portrait-frame img {
+  filter: saturate(0.76) contrast(0.94) brightness(0.78) sepia(0.08);
+}
+
+html[data-theme="dark"] .hero__portrait-reveal {
+  background:
+    radial-gradient(circle at 50% 44%, rgba(44, 41, 31, 0.72), rgba(10, 10, 8, 0.92) 72%),
+    #0e0d0a !important;
+}
+
+html[data-theme="dark"] .hero__portrait-scratch {
+  background:
+    radial-gradient(circle at 30% 18%, rgba(246, 241, 230, 0.08), transparent 22%),
+    linear-gradient(135deg, rgba(33, 31, 25, 0.98), rgba(17, 16, 12, 0.94)) !important;
+}
+
+html[data-theme="dark"] :where(.card-cta, .writing-list article > a:last-child, .about-link, .contact-card a, .case-nav a) {
+  background: rgba(246, 241, 230, 0.075) !important;
+  color: #fff8ea !important;
+  border-color: rgba(246, 241, 230, 0.18) !important;
+}
+
+html[data-theme="dark"] :where(.button, .card-cta--dark, .hero__mobile-actions .button) {
+  background: #d4dfb7 !important;
+  color: #11100c !important;
+  border-color: rgba(212, 223, 183, 0.3) !important;
+}
+
+html[data-theme="dark"] :where(.button:hover, .card-cta:hover, .card-cta--dark:hover, .writing-list article > a:last-child:hover, .about-link:hover, .contact-card a:hover) {
+  background: #4f6241 !important;
+  color: #fbfaf6 !important;
+  border-color: rgba(170, 185, 145, 0.52) !important;
+}
+
+html[data-theme="dark"] .nav-links a.is-active {
+  background: #d4dfb7 !important;
+  color: #11100c !important;
+}
+
+html[data-theme="dark"] :where(.status-pill.is-success, .project-status.is-success) {
+  background: rgba(58, 104, 65, 0.52) !important;
+  color: #e5f6d9 !important;
+}
+
+html[data-theme="dark"] :where(.status-pill.is-progress, .project-status.is-progress) {
+  background: rgba(54, 92, 144, 0.58) !important;
+  color: #edf5ff !important;
+}
+
+html[data-theme="dark"] :where(.workspace-card__body div, .preview-body div, .writing-section__intro, .project-preview .preview-body, .teardown-preview .preview-body) {
+  border-color: rgba(246, 241, 230, 0.14) !important;
+}
+
+html[data-theme="dark"] .nav-links a {
+  background: rgba(246, 241, 230, 0.07) !important;
+  color: #e5dece !important;
+}
+
+html[data-theme="dark"] .nav-links a:hover,
+html[data-theme="dark"] .nav-links a.is-active {
+  background: #d4dfb7 !important;
+  color: #11100c !important;
+}
+
+@media (max-width: 900px) {
+  html[data-theme="dark"] body {
+    background:
+      radial-gradient(circle at 18% 14%, rgba(104, 119, 86, 0.16), transparent 30%),
+      radial-gradient(circle at 84% 4%, rgba(183, 159, 131, 0.11), transparent 34%),
+      #171611 !important;
+  }
+
+  html[data-theme="dark"] .site-header::before {
+    height: 126px;
+    background:
+      linear-gradient(to bottom, rgba(18, 17, 13, 0.98), rgba(18, 17, 13, 0.94) 70%, rgba(18, 17, 13, 0)) !important;
+  }
+
+  html[data-theme="dark"] .nav-shell {
+    background:
+      linear-gradient(145deg, rgba(44, 41, 31, 0.98), rgba(20, 19, 15, 0.98)),
+      #15140f !important;
+  }
+
+  html[data-theme="dark"] :where(.workspace-card, .writing-index__panel, .writing-destination, .verses-section, .project-preview, .teardown-preview, .contact-card) {
+    background:
+      linear-gradient(145deg, rgba(45, 42, 32, 0.98), rgba(18, 17, 13, 0.97)),
+      #15140f !important;
+  }
+
+  html[data-theme="dark"] .hero__mobile-actions .card-cta {
+    background: rgba(246, 241, 230, 0.08) !important;
+    color: #fff8ea !important;
+  }
+}
+
+/* Dark mode contrast and accessibility finishing pass */
+html[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+html[data-theme="dark"] .loader {
+  background:
+    radial-gradient(circle at 18% 16%, rgba(82, 95, 128, 0.28), transparent 34%),
+    radial-gradient(circle at 82% 72%, rgba(163, 177, 138, 0.13), transparent 36%),
+    radial-gradient(circle at 50% 88%, rgba(240, 217, 168, 0.12), transparent 40%),
+    linear-gradient(145deg, #05070d 0%, #0b0d13 48%, #151209 100%) !important;
+}
+
+html[data-theme="dark"] .loader::before {
+  opacity: 1;
+  filter: drop-shadow(0 0 6px rgba(255, 248, 234, 0.42));
+  background-image:
+    radial-gradient(circle, rgba(255, 252, 238, 0.95) 0 0.9px, rgba(255, 232, 176, 0.72) 1px 2.8px, transparent 7px),
+    radial-gradient(circle, rgba(236, 244, 255, 0.8) 0 0.7px, rgba(179, 196, 226, 0.45) 0.8px 2px, transparent 6px),
+    radial-gradient(circle at 8% 20%, rgba(255, 252, 238, 1) 0 1.2px, rgba(255, 232, 176, 0.78) 1.3px 3.6px, transparent 10px),
+    radial-gradient(circle at 18% 72%, rgba(255, 252, 238, 0.92) 0 1px, rgba(255, 232, 176, 0.58) 1.1px 3px, transparent 9px),
+    radial-gradient(circle at 29% 34%, rgba(235, 246, 218, 0.9) 0 1px, rgba(163, 177, 138, 0.62) 1.1px 3px, transparent 9px),
+    radial-gradient(circle at 42% 16%, rgba(255, 252, 238, 1) 0 1.4px, rgba(255, 232, 176, 0.72) 1.5px 4px, transparent 12px),
+    radial-gradient(circle at 57% 68%, rgba(255, 252, 238, 0.9) 0 1.1px, rgba(255, 232, 176, 0.56) 1.2px 3.4px, transparent 10px),
+    radial-gradient(circle at 70% 28%, rgba(235, 246, 218, 0.92) 0 1px, rgba(163, 177, 138, 0.62) 1.1px 3.2px, transparent 10px),
+    radial-gradient(circle at 84% 78%, rgba(255, 252, 238, 1) 0 1.5px, rgba(255, 232, 176, 0.72) 1.6px 4.2px, transparent 13px),
+    radial-gradient(circle at 94% 38%, rgba(255, 252, 238, 0.9) 0 1px, rgba(255, 232, 176, 0.58) 1.1px 3px, transparent 10px);
+  background-size:
+    132px 132px,
+    196px 196px,
+    100% 100%,
+    100% 100%,
+    100% 100%,
+    100% 100%,
+    100% 100%,
+    100% 100%,
+    100% 100%,
+    100% 100%;
+}
+
+html[data-theme="dark"] .loader::after {
+  background:
+    radial-gradient(circle at 52% 42%, rgba(163, 177, 138, 0.11), transparent 34%),
+    radial-gradient(circle at 50% 78%, rgba(255, 232, 176, 0.08), transparent 38%),
+    linear-gradient(to bottom, rgba(255, 248, 234, 0.02), rgba(0, 0, 0, 0.28));
+}
+
+html[data-theme="dark"] .constellation-line {
+  stroke: rgba(255, 248, 234, 0.42) !important;
+}
+
+html[data-theme="dark"] .constellation-node__dot {
+  background: #fff8ea !important;
+  box-shadow:
+    0 0 0 8px rgba(255, 248, 234, 0.12),
+    0 0 22px rgba(255, 232, 176, 0.62) !important;
+}
+
+html[data-theme="dark"] .constellation-node__label {
+  color: #f6f1e6 !important;
+  text-shadow: 0 0 18px rgba(255, 248, 234, 0.24) !important;
+}
+
+html[data-theme="dark"] .loader__blink {
+  background: #fff8ea !important;
+}
+
+html[data-theme="dark"] .hero {
+  background:
+    linear-gradient(90deg, rgba(18, 17, 13, 0.9), rgba(18, 17, 13, 0.72) 54%, rgba(12, 12, 9, 0.96)),
+    #12110d !important;
+}
+
+html[data-theme="dark"] .hero__background {
+  opacity: 0.72 !important;
+  background:
+    linear-gradient(to right, rgba(18, 17, 13, 0.52), rgba(18, 17, 13, 0.12) 48%, rgba(8, 8, 7, 0.64)),
+    radial-gradient(circle at 78% 34%, rgba(240, 217, 168, 0.12), transparent 28%),
+    radial-gradient(circle at 26% 56%, rgba(163, 177, 138, 0.08), transparent 34%),
+    url("assets/hero-bg.png") !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+}
+
+html[data-theme="dark"] .hero__content::before {
+  inset: -120px 14vw -120px -120px !important;
+  background:
+    radial-gradient(ellipse at 31% 46%, rgba(18, 17, 13, 0.58) 0%, rgba(18, 17, 13, 0.22) 45%, rgba(18, 17, 13, 0) 72%) !important;
+  filter: blur(30px) !important;
+}
+
+html[data-theme="dark"] .hero h1,
+html[data-theme="dark"] .hero .hero-title,
+html[data-theme="dark"] .hero__title {
+  color: #fff8ea !important;
+  text-shadow: 0 18px 52px rgba(0, 0, 0, 0.32) !important;
+}
+
+html[data-theme="dark"] .hero .eyebrow,
+html[data-theme="dark"] .hero .kicker {
+  color: #d9edb9 !important;
+}
+
+html[data-theme="dark"] .hero__copy,
+html[data-theme="dark"] .hero__copy span,
+html[data-theme="dark"] .hero p {
+  color: #e7dfce !important;
+}
+
+html[data-theme="dark"] .hero__copy strong,
+html[data-theme="dark"] .hero__word {
+  color: #fff8ea !important;
+}
+
+html[data-theme="dark"] .hero__portrait-reveal {
+  background:
+    radial-gradient(circle at 60% 38%, rgba(255, 248, 234, 0.07), transparent 34%),
+    radial-gradient(circle at 78% 74%, rgba(5, 5, 4, 0.7), transparent 42%) !important;
+}
+
+html[data-theme="dark"] .contact {
+  background:
+    radial-gradient(circle at 18% 16%, rgba(163, 177, 138, 0.1), transparent 32%),
+    linear-gradient(145deg, rgba(14, 14, 11, 0.94), rgba(22, 20, 15, 0.98)) !important;
+}
+
+html[data-theme="dark"] .contact-copy h2 {
+  color: #fff8ea !important;
+  text-shadow: 0 18px 58px rgba(0, 0, 0, 0.38) !important;
+}
+
+html[data-theme="dark"] .contact-copy h2 span {
+  color: rgba(255, 248, 234, 0.58) !important;
+}
+
+html[data-theme="dark"] .contact-note,
+html[data-theme="dark"] .contact-copy p {
+  color: #e5dece !important;
+}
+
+html[data-theme="dark"] :where(
+  .workspace-card,
+  .teardown-list__item,
+  .teardown-preview,
+  .writing-index,
+  .writing-index__panel,
+  .writing-destination,
+  .writing-list article,
+  .verses-section,
+  .poem-row,
+  .verse-row,
+  .contact-card,
+  .care-grid,
+  .care-card,
+  .care-item,
+  .principles-panel,
+  .principles-sequence,
+  .principle-row,
+  .project-preview,
+  .preview-panel,
+  .case-card,
+  .project-meta-card,
+  .visual-placeholder,
+  .flow-step,
+  .decision-card,
+  .case-nav a
+) {
+  background:
+    linear-gradient(145deg, rgba(42, 39, 30, 0.98), rgba(18, 17, 13, 0.985)),
+    #171611 !important;
+  border-color: rgba(246, 241, 230, 0.13) !important;
+  color: #fff8ea !important;
+  box-shadow: 0 22px 58px rgba(0, 0, 0, 0.32) !important;
+}
+
+html[data-theme="dark"] :where(
+  .workspace-card,
+  .teardown-list__item,
+  .teardown-preview,
+  .writing-index__panel,
+  .writing-destination,
+  .writing-list article,
+  .verses-section,
+  .poem-row,
+  .verse-row,
+  .contact-card,
+  .care-card,
+  .care-item,
+  .principles-panel,
+  .principles-sequence,
+  .project-preview,
+  .case-card,
+  .project-meta-card,
+  .visual-placeholder,
+  .flow-step,
+  .decision-card
+) :where(p, span, li, dd, div) {
+  color: #e5dece !important;
+}
+
+html[data-theme="dark"] :where(
+  .workspace-card,
+  .teardown-list__item,
+  .teardown-preview,
+  .writing-index__panel,
+  .writing-destination,
+  .writing-list article,
+  .verses-section,
+  .poem-row,
+  .verse-row,
+  .contact-card,
+  .care-card,
+  .care-item,
+  .principles-panel,
+  .principles-sequence,
+  .project-preview,
+  .case-card,
+  .project-meta-card,
+  .visual-placeholder,
+  .flow-step,
+  .decision-card
+) :where(h1, h2, h3, h4, strong, b) {
+  color: #fff8ea !important;
+}
+
+html[data-theme="dark"] :where(.eyebrow, .kicker, .section-label, .workspace-card__eyebrow, .writing-index__meta, .project-label) {
+  color: #d9edb9 !important;
+}
+
+html[data-theme="dark"] .footer {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  background:
+    linear-gradient(135deg, rgba(17, 16, 12, 0.98), rgba(28, 25, 18, 0.98)),
+    #11100c !important;
+  border-top: 1px solid rgba(246, 241, 230, 0.14) !important;
+  color: #f6f1e6 !important;
+}
+
+html[data-theme="dark"] .footer span {
+  color: #f6f1e6 !important;
+}
+
+@media (max-width: 900px) {
+  html[data-theme="dark"] .site-header {
+    background:
+      linear-gradient(to bottom, rgba(18, 17, 13, 0.98), rgba(18, 17, 13, 0.92) 72%, rgba(18, 17, 13, 0)) !important;
+  }
+
+  html[data-theme="dark"] .standalone-brand,
+  html[data-theme="dark"] .time-block,
+  html[data-theme="dark"] .time-block span {
+    color: #fff8ea !important;
+  }
+
+  html[data-theme="dark"] .hero {
+    background:
+      linear-gradient(90deg, rgba(24, 23, 18, 0.94), rgba(30, 28, 22, 0.82) 58%, rgba(8, 8, 7, 0.98)),
+      #12110d !important;
+  }
+
+  html[data-theme="dark"] .hero__content::before {
+    inset: -84px -10px -84px -18px !important;
+    background:
+      radial-gradient(ellipse at 42% 48%, rgba(18, 17, 13, 0.34), rgba(18, 17, 13, 0.16) 48%, transparent 78%) !important;
+  }
+
+  html[data-theme="dark"] .contact-copy h2 {
+    overflow-wrap: anywhere;
+  }
+
+  html[data-theme="dark"] .footer {
+    display: grid !important;
+    gap: 10px !important;
+    padding: 22px 20px 34px !important;
+  }
+}
+
+/* Remove the pale hero wash in dark mode. */
+html[data-theme="dark"] .hero {
+  background:
+    radial-gradient(ellipse at 18% 42%, rgba(68, 68, 58, 0.24), transparent 42%),
+    radial-gradient(ellipse at 78% 38%, rgba(44, 38, 28, 0.2), transparent 38%),
+    linear-gradient(102deg, #15140f 0%, #1b1913 46%, #090908 100%) !important;
+}
+
+html[data-theme="dark"] .hero__background {
+  opacity: 0.82 !important;
+  background:
+    linear-gradient(to bottom, rgba(5, 5, 4, 0.2), rgba(5, 5, 4, 0.54) 82%, rgba(5, 5, 4, 0.82)),
+    linear-gradient(to right, rgba(8, 8, 7, 0.48), rgba(20, 19, 15, 0.24) 42%, rgba(5, 5, 4, 0.76)),
+    radial-gradient(ellipse at 34% 44%, rgba(86, 84, 74, 0.18), transparent 38%),
+    radial-gradient(ellipse at 82% 36%, rgba(82, 70, 48, 0.16), transparent 32%),
+    linear-gradient(115deg, #15140f 0%, #222018 48%, #0a0a08 100%) !important;
+  background-blend-mode: normal !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+}
+
+html[data-theme="dark"] .hero__content::before {
+  background:
+    radial-gradient(ellipse at 34% 48%, rgba(5, 5, 4, 0.62) 0%, rgba(10, 10, 8, 0.34) 44%, rgba(10, 10, 8, 0) 74%) !important;
+  filter: blur(34px) !important;
+}
+
+html[data-theme="dark"] .hero.is-portrait-hint .hero__portrait-glow,
+html[data-theme="dark"] .hero.is-portrait-active .hero__portrait-glow {
+  background:
+    linear-gradient(104deg, rgba(20, 18, 13, 0) 18%, rgba(168, 147, 102, 0.18) 44%, rgba(70, 58, 38, 0.16) 58%, rgba(20, 18, 13, 0) 76%) !important;
+  mix-blend-mode: soft-light !important;
+}
+
+/* Keep the desktop principles module dark and readable in system dark mode. */
+html[data-theme="dark"] .principles {
+  background: transparent !important;
+}
+
+html[data-theme="dark"] .principles__intro,
+html[data-theme="dark"] .principle-panel,
+html[data-theme="dark"] .principle-panel.is-active,
+html[data-theme="dark"] .principle-panel:hover {
+  background:
+    linear-gradient(145deg, rgba(38, 35, 27, 0.98), rgba(13, 13, 10, 0.985)),
+    #11100c !important;
+  border-color: rgba(246, 241, 230, 0.14) !important;
+  color: #fff8ea !important;
+  box-shadow: 0 22px 58px rgba(0, 0, 0, 0.34) !important;
+}
+
+html[data-theme="dark"] .principle-panel h3 {
+  color: #fff8ea !important;
+}
+
+html[data-theme="dark"] .principle-panel p,
+html[data-theme="dark"] .principles__intro .section-deck {
+  color: #e5dece !important;
+}
+
+html[data-theme="dark"] .principles__list::before {
+  background: rgba(212, 223, 183, 0.22) !important;
+}
+
+html[data-theme="dark"] .principle-panel::before,
+html[data-theme="dark"] .principle-panel::after {
+  opacity: 0 !important;
+}
+
+html[data-theme="dark"] .principle-panel span {
+  background: #f6f1e6 !important;
+  border-color: rgba(246, 241, 230, 0.28) !important;
+  color: #8da36c !important;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28) !important;
+}
+
+html[data-theme="dark"] .principle-panel.is-active span,
+html[data-theme="dark"] .principle-panel:hover span {
+  background: #aab991 !important;
+  color: #11100c !important;
 }
