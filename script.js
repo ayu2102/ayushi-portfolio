@@ -490,8 +490,8 @@ const teardownData = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  setupSystemTheme();
   ensureGlobalHeader();
+  setupTheme();
   ensureGlobalFooter();
   runConstellationLoader();
   runHeroWordCycle();
@@ -510,20 +510,32 @@ document.addEventListener("DOMContentLoaded", () => {
   setupPoemOverlay();
 });
 
-function setupSystemTheme() {
-  const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+function setupTheme() {
+  const root = document.documentElement;
+  const toggles = document.querySelectorAll(".theme-toggle");
 
-  const applyTheme = () => {
-    document.documentElement.setAttribute("data-theme", mediaQuery.matches ? "dark" : "light");
+  const applyTheme = (theme) => {
+    const isDark = theme === "dark";
+    root.setAttribute("data-theme", isDark ? "dark" : "light");
+
+    toggles.forEach((toggle) => {
+      toggle.setAttribute("aria-pressed", String(isDark));
+      toggle.setAttribute("aria-label", isDark ? "Switch to light mode" : "Switch to dark mode");
+
+      const label = toggle.querySelector(".theme-toggle__text");
+      if (label) label.textContent = isDark ? "Light" : "Dark";
+    });
   };
 
-  applyTheme();
+  applyTheme(localStorage.getItem("theme") === "dark" ? "dark" : "light");
 
-  if (typeof mediaQuery.addEventListener === "function") {
-    mediaQuery.addEventListener("change", applyTheme);
-  } else if (typeof mediaQuery.addListener === "function") {
-    mediaQuery.addListener(applyTheme);
-  }
+  toggles.forEach((toggle) => {
+    toggle.addEventListener("click", () => {
+      const nextTheme = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      localStorage.setItem("theme", nextTheme);
+      applyTheme(nextTheme);
+    });
+  });
 }
 
 function ensureGlobalHeader() {
@@ -542,6 +554,10 @@ function ensureGlobalHeader() {
       <time id="newDelhiTime">IST --:--</time>
       <span>Delhi, India</span>
     </div>
+    <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
+      <span class="theme-toggle__mark" aria-hidden="true"></span>
+      <span class="theme-toggle__text">Dark</span>
+    </button>
     <button class="mobile-menu-toggle" type="button" aria-controls="primaryNav" aria-expanded="false">Menu</button>
     <nav class="nav-shell" id="primaryNav" aria-label="Primary navigation">
       <a class="brand" href="${homeHref}" aria-label="Ayushi home">Ayushi</a>
@@ -892,9 +908,9 @@ function setupMobileHeroScratchReveal() {
     ctx.clearRect(0, 0, width, height);
 
     const paper = ctx.createLinearGradient(0, 0, width, height);
-    paper.addColorStop(0, "rgba(246, 245, 240, 0.97)");
-    paper.addColorStop(0.52, "rgba(235, 234, 228, 0.93)");
-    paper.addColorStop(1, "rgba(216, 222, 201, 0.86)");
+    paper.addColorStop(0, "rgba(246, 245, 240, 0.94)");
+    paper.addColorStop(0.52, "rgba(235, 234, 228, 0.9)");
+    paper.addColorStop(1, "rgba(216, 222, 201, 0.82)");
     ctx.fillStyle = paper;
     ctx.fillRect(0, 0, width, height);
 
@@ -917,26 +933,59 @@ function setupMobileHeroScratchReveal() {
     ctx.restore();
 
     const glow = ctx.createRadialGradient(width * 0.32, height * 0.16, 0, width * 0.32, height * 0.16, Math.max(width, height) * 0.46);
-    glow.addColorStop(0, "rgba(250, 250, 250, 0.4)");
-    glow.addColorStop(0.42, "rgba(240, 217, 168, 0.18)");
+    glow.addColorStop(0, "rgba(250, 250, 250, 0.24)");
+    glow.addColorStop(0.42, "rgba(240, 217, 168, 0.1)");
     glow.addColorStop(1, "rgba(240, 217, 168, 0)");
     ctx.fillStyle = glow;
     ctx.fillRect(0, 0, width, height);
   };
 
-  const revealAt = (x, y, radius) => {
+  const revealAt = (x, y, radius, strength = 1) => {
     ctx.save();
     ctx.globalCompositeOperation = "destination-out";
     const reveal = ctx.createRadialGradient(x, y, 0, x, y, radius);
-    reveal.addColorStop(0, "rgba(0, 0, 0, 0.88)");
-    reveal.addColorStop(0.42, "rgba(0, 0, 0, 0.7)");
-    reveal.addColorStop(0.76, "rgba(0, 0, 0, 0.22)");
+    reveal.addColorStop(0, `rgba(0, 0, 0, ${0.98 * strength})`);
+    reveal.addColorStop(0.46, `rgba(0, 0, 0, ${0.86 * strength})`);
+    reveal.addColorStop(0.78, `rgba(0, 0, 0, ${0.34 * strength})`);
     reveal.addColorStop(1, "rgba(0, 0, 0, 0)");
     ctx.fillStyle = reveal;
     ctx.beginPath();
     ctx.arc(x, y, radius, 0, Math.PI * 2);
     ctx.fill();
     ctx.restore();
+  };
+
+  const drawRevealStroke = (progress, strength = 1) => {
+    const eased = progress < 0.5
+      ? 2 * progress * progress
+      : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+    const brush = Math.max(118, Math.min(width, height) * 0.34);
+    const steps = 26;
+
+    ctx.save();
+    ctx.globalCompositeOperation = "destination-out";
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.strokeStyle = `rgba(0, 0, 0, ${0.95 * strength})`;
+    ctx.lineWidth = brush * 0.78;
+    ctx.shadowColor = `rgba(0, 0, 0, ${0.58 * strength})`;
+    ctx.shadowBlur = brush * 0.34;
+
+    ctx.beginPath();
+    for (let index = 0; index <= Math.max(2, Math.round(steps * eased)); index += 1) {
+      const t = index / steps;
+      const wobble = Math.sin(t * Math.PI * 2.15) * width * 0.035;
+      const x = width * (0.18 + t * 0.7) + wobble;
+      const y = height * (0.2 + t * 0.62) + Math.sin(t * Math.PI * 1.4) * height * 0.08;
+      if (index === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    ctx.restore();
+
+    const headX = width * (0.18 + eased * 0.7) + Math.sin(eased * Math.PI * 2.15) * width * 0.035;
+    const headY = height * (0.2 + eased * 0.62) + Math.sin(eased * Math.PI * 1.4) * height * 0.08;
+    revealAt(headX, headY, brush * 0.72, strength);
   };
 
   const resizeCanvas = () => {
@@ -951,18 +1000,20 @@ function setupMobileHeroScratchReveal() {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     paintCover();
 
-    const baseRadius = Math.max(78, Math.min(width, height) * 0.2);
-    revealAt(width * 0.38, height * 0.34, baseRadius);
-    if (reducedMotion) revealAt(width * 0.62, height * 0.54, baseRadius * 0.92);
+    if (reducedMotion) {
+      drawRevealStroke(0.64, 0.95);
+    }
   };
 
   const animate = (now) => {
-    const seconds = (now - startTime) / 1000;
-    const radius = Math.max(82, Math.min(width, height) * 0.2);
-    const x = width * (0.48 + Math.sin(seconds * 0.62) * 0.24 + Math.sin(seconds * 0.29) * 0.09);
-    const y = height * (0.48 + Math.cos(seconds * 0.54) * 0.22 + Math.sin(seconds * 0.37 + 1.7) * 0.08);
+    const cycle = 2400;
+    const raw = ((now - startTime) % cycle) / cycle;
+    const revealProgress = clamp(raw / 0.68, 0, 1);
+    const fadeOut = raw > 0.74 ? clamp(1 - (raw - 0.74) / 0.26, 0, 1) : 1;
+    const strength = Math.max(0.08, fadeOut);
 
-    revealAt(x, y, radius);
+    paintCover();
+    drawRevealStroke(revealProgress, strength);
     animationFrame = window.requestAnimationFrame(animate);
   };
 
@@ -1411,6 +1462,7 @@ function setupProjects() {
 
 function setupTeardowns() {
   const tabs = document.querySelectorAll(".teardown-tab");
+  const preview = document.getElementById("teardownPreview");
   const fields = {
     title: document.getElementById("teardownTitle"),
     kicker: document.getElementById("teardownKicker"),
@@ -1420,27 +1472,36 @@ function setupTeardowns() {
     link: document.getElementById("teardownLink")
   };
 
+  if (!tabs.length || Object.values(fields).some((field) => !field)) return;
+
+  const activateTeardown = (tab) => {
+    const teardown = teardownData[tab.dataset.teardown];
+    if (!teardown) return;
+
+    tabs.forEach((item) => {
+      item.classList.remove("is-active");
+      item.setAttribute("aria-selected", "false");
+    });
+
+    tab.classList.add("is-active");
+    tab.setAttribute("aria-selected", "true");
+
+    fields.title.textContent = teardown.title;
+    fields.kicker.textContent = teardown.kicker;
+    fields.observation.textContent = teardown.observation;
+    fields.insight.textContent = teardown.insight;
+    fields.opportunity.textContent = teardown.opportunity;
+    fields.link.href = teardown.link;
+    preview?.classList.remove("is-windows11", "is-irctc", "is-gpay");
+    preview?.classList.add(`is-${tab.dataset.teardown}`);
+  };
+
   tabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      const teardown = teardownData[tab.dataset.teardown];
-      if (!teardown) return;
-
-      tabs.forEach((item) => {
-        item.classList.remove("is-active");
-        item.setAttribute("aria-selected", "false");
-      });
-
-      tab.classList.add("is-active");
-      tab.setAttribute("aria-selected", "true");
-
-      fields.title.textContent = teardown.title;
-      fields.kicker.textContent = teardown.kicker;
-      fields.observation.textContent = teardown.observation;
-      fields.insight.textContent = teardown.insight;
-      fields.opportunity.textContent = teardown.opportunity;
-      fields.link.href = teardown.link;
-      document.getElementById("teardownPreview")?.classList.remove("is-windows11", "is-irctc", "is-gpay");
-      document.getElementById("teardownPreview")?.classList.add(`is-${tab.dataset.teardown}`);
+    tab.addEventListener("click", () => activateTeardown(tab));
+    tab.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      activateTeardown(tab);
     });
   });
 }
