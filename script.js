@@ -901,7 +901,7 @@ function setupMobileHeroScratchReveal() {
   let width = 0;
   let height = 0;
   let animationFrame = 0;
-  let startTime = performance.now();
+  let t = 0;
 
   const paintCover = () => {
     ctx.globalCompositeOperation = "source-over";
@@ -940,52 +940,19 @@ function setupMobileHeroScratchReveal() {
     ctx.fillRect(0, 0, width, height);
   };
 
-  const revealAt = (x, y, radius, strength = 1) => {
+  const revealAt = (x, y, radius) => {
     ctx.save();
     ctx.globalCompositeOperation = "destination-out";
     const reveal = ctx.createRadialGradient(x, y, 0, x, y, radius);
-    reveal.addColorStop(0, `rgba(0, 0, 0, ${0.98 * strength})`);
-    reveal.addColorStop(0.46, `rgba(0, 0, 0, ${0.86 * strength})`);
-    reveal.addColorStop(0.78, `rgba(0, 0, 0, ${0.34 * strength})`);
+    reveal.addColorStop(0, "rgba(0, 0, 0, 0.98)");
+    reveal.addColorStop(0.55, "rgba(0, 0, 0, 0.86)");
+    reveal.addColorStop(0.82, "rgba(0, 0, 0, 0.34)");
     reveal.addColorStop(1, "rgba(0, 0, 0, 0)");
     ctx.fillStyle = reveal;
     ctx.beginPath();
     ctx.arc(x, y, radius, 0, Math.PI * 2);
     ctx.fill();
     ctx.restore();
-  };
-
-  const drawRevealStroke = (progress, strength = 1) => {
-    const eased = progress < 0.5
-      ? 2 * progress * progress
-      : 1 - Math.pow(-2 * progress + 2, 2) / 2;
-    const brush = Math.max(118, Math.min(width, height) * 0.34);
-    const steps = 26;
-
-    ctx.save();
-    ctx.globalCompositeOperation = "destination-out";
-    ctx.lineCap = "round";
-    ctx.lineJoin = "round";
-    ctx.strokeStyle = `rgba(0, 0, 0, ${0.95 * strength})`;
-    ctx.lineWidth = brush * 0.78;
-    ctx.shadowColor = `rgba(0, 0, 0, ${0.58 * strength})`;
-    ctx.shadowBlur = brush * 0.34;
-
-    ctx.beginPath();
-    for (let index = 0; index <= Math.max(2, Math.round(steps * eased)); index += 1) {
-      const t = index / steps;
-      const wobble = Math.sin(t * Math.PI * 2.15) * width * 0.035;
-      const x = width * (0.18 + t * 0.7) + wobble;
-      const y = height * (0.2 + t * 0.62) + Math.sin(t * Math.PI * 1.4) * height * 0.08;
-      if (index === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
-    }
-    ctx.stroke();
-    ctx.restore();
-
-    const headX = width * (0.18 + eased * 0.7) + Math.sin(eased * Math.PI * 2.15) * width * 0.035;
-    const headY = height * (0.2 + eased * 0.62) + Math.sin(eased * Math.PI * 1.4) * height * 0.08;
-    revealAt(headX, headY, brush * 0.72, strength);
   };
 
   const resizeCanvas = () => {
@@ -998,22 +965,24 @@ function setupMobileHeroScratchReveal() {
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    // Cover is painted ONCE here. It is never repainted again after this point —
+    // that's what makes the reveal below permanent instead of a repeating loop.
     paintCover();
+    t = 0;
 
     if (reducedMotion) {
-      drawRevealStroke(0.64, 0.95);
+      revealAt(width * 0.5, height * 0.45, Math.max(width, height) * 0.62);
     }
   };
 
-  const animate = (now) => {
-    const cycle = 2400;
-    const raw = ((now - startTime) % cycle) / cycle;
-    const revealProgress = clamp(raw / 0.68, 0, 1);
-    const fadeOut = raw > 0.74 ? clamp(1 - (raw - 0.74) / 0.26, 0, 1) : 1;
-    const strength = Math.max(0.08, fadeOut);
-
-    paintCover();
-    drawRevealStroke(revealProgress, strength);
+  const animate = () => {
+    t += 0.045;
+    const brush = Math.max(90, Math.min(width, height) * 0.24);
+    const x = width * (0.5 + 0.34 * Math.sin(t * 0.9));
+    const y = height * (0.45 + 0.3 * Math.sin(t * 1.37 + 1.1));
+    // Only ever erases (destination-out), never re-covers — every pass permanently
+    // reveals more of the photo, exactly like scratching a physical scratch card.
+    revealAt(x, y, brush);
     animationFrame = window.requestAnimationFrame(animate);
   };
 
@@ -1037,7 +1006,6 @@ function setupMobileHeroScratchReveal() {
     }
 
     if (!document.hidden && !animationFrame && !reducedMotion) {
-      startTime = performance.now();
       animationFrame = window.requestAnimationFrame(animate);
     }
   });
@@ -1390,16 +1358,21 @@ function runConstellationLoader() {
     return { node, line: point.line };
   });
 
+  // Safety net: no matter what happens with the animation math above, the loader
+  // is force-hidden after 2.4s regardless. This guarantees it can never block the
+  // page indefinitely, even in an edge case this function's own timing doesn't cover.
+  window.setTimeout(() => loader.classList.add("is-hidden"), 2400);
+
   nodes.forEach((item, index) => {
     window.setTimeout(() => {
       item.node.classList.add("is-visible");
       if (item.line) item.line.classList.add("is-visible");
-    }, 420 + index * 520);
+    }, 200 + index * 150);
   });
 
-  const exitDelay = 420 + nodeCount * 520 + 760;
+  const exitDelay = 200 + nodeCount * 150 + 300;
   window.setTimeout(() => loader.classList.add("is-blinking"), exitDelay);
-  window.setTimeout(() => loader.classList.add("is-hidden"), exitDelay + 520);
+  window.setTimeout(() => loader.classList.add("is-hidden"), exitDelay + 300);
 }
 
 function createConstellationPoints(count) {
