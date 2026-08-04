@@ -907,16 +907,24 @@ function setupMobileHeroScratchReveal() {
     ctx.globalCompositeOperation = "source-over";
     ctx.clearRect(0, 0, width, height);
 
+    const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+
     const paper = ctx.createLinearGradient(0, 0, width, height);
-    paper.addColorStop(0, "rgba(246, 245, 240, 0.94)");
-    paper.addColorStop(0.52, "rgba(235, 234, 228, 0.9)");
-    paper.addColorStop(1, "rgba(216, 222, 201, 0.82)");
+    if (isDark) {
+      paper.addColorStop(0, "rgba(28, 25, 20, 0.96)");
+      paper.addColorStop(0.52, "rgba(20, 18, 14, 0.94)");
+      paper.addColorStop(1, "rgba(12, 11, 9, 0.9)");
+    } else {
+      paper.addColorStop(0, "rgba(246, 245, 240, 0.94)");
+      paper.addColorStop(0.52, "rgba(235, 234, 228, 0.9)");
+      paper.addColorStop(1, "rgba(216, 222, 201, 0.82)");
+    }
     ctx.fillStyle = paper;
     ctx.fillRect(0, 0, width, height);
 
     ctx.save();
     ctx.globalAlpha = 0.28;
-    ctx.strokeStyle = "rgba(104, 119, 86, 0.09)";
+    ctx.strokeStyle = isDark ? "rgba(214, 200, 173, 0.07)" : "rgba(104, 119, 86, 0.09)";
     ctx.lineWidth = 1;
     for (let x = 0; x <= width; x += 34) {
       ctx.beginPath();
@@ -933,9 +941,15 @@ function setupMobileHeroScratchReveal() {
     ctx.restore();
 
     const glow = ctx.createRadialGradient(width * 0.32, height * 0.16, 0, width * 0.32, height * 0.16, Math.max(width, height) * 0.46);
-    glow.addColorStop(0, "rgba(250, 250, 250, 0.24)");
-    glow.addColorStop(0.42, "rgba(240, 217, 168, 0.1)");
-    glow.addColorStop(1, "rgba(240, 217, 168, 0)");
+    if (isDark) {
+      glow.addColorStop(0, "rgba(90, 84, 68, 0.22)");
+      glow.addColorStop(0.42, "rgba(60, 54, 42, 0.1)");
+      glow.addColorStop(1, "rgba(60, 54, 42, 0)");
+    } else {
+      glow.addColorStop(0, "rgba(250, 250, 250, 0.24)");
+      glow.addColorStop(0.42, "rgba(240, 217, 168, 0.1)");
+      glow.addColorStop(1, "rgba(240, 217, 168, 0)");
+    }
     ctx.fillStyle = glow;
     ctx.fillRect(0, 0, width, height);
   };
@@ -970,18 +984,35 @@ function setupMobileHeroScratchReveal() {
     paintCover();
     t = 0;
 
+    // Reduced-motion visitors get an immediate, permanent reveal across all three
+    // bands instead of watching the animation.
     if (reducedMotion) {
-      revealAt(width * 0.5, height * 0.45, Math.max(width, height) * 0.62);
+      const brush = Math.max(85, Math.min(width, height) * 0.22);
+      revealAt(width * 0.5, height * 0.24, brush);
+      revealAt(width * 0.5, height * 0.49, brush);
+      revealAt(width * 0.5, height * 0.74, brush);
     }
   };
 
   const animate = () => {
-    t += 0.045;
-    const brush = Math.max(90, Math.min(width, height) * 0.24);
-    const x = width * (0.5 + 0.34 * Math.sin(t * 0.9));
-    const y = height * (0.45 + 0.3 * Math.sin(t * 1.37 + 1.1));
-    // Only ever erases (destination-out), never re-covers — every pass permanently
-    // reveals more of the photo, exactly like scratching a physical scratch card.
+    t += 0.022;
+    const brush = Math.max(85, Math.min(width, height) * 0.22);
+
+    // Boustrophedon zigzag: three horizontal bands, alternating left-right / right-left,
+    // exactly like a hand scratching a card back and forth — not one smooth orbit.
+    // Loops continuously (ambient motion), but revealAt() only ever erases, so nothing
+    // already revealed is ever covered again — permanent, per the scratch-card spec.
+    const bands = 3;
+    const cycle = t % bands;
+    const band = Math.floor(cycle);
+    const progress = cycle - band;
+    const goingRight = band % 2 === 0;
+    const travel = goingRight ? progress : 1 - progress;
+
+    const x = width * (0.1 + travel * 0.8);
+    const bandY = 0.24 + (band / (bands - 1)) * 0.5;
+    const y = height * bandY + Math.sin(progress * Math.PI) * height * 0.03;
+
     revealAt(x, y, brush);
     animationFrame = window.requestAnimationFrame(animate);
   };
@@ -1359,20 +1390,20 @@ function runConstellationLoader() {
   });
 
   // Safety net: no matter what happens with the animation math above, the loader
-  // is force-hidden after 2.4s regardless. This guarantees it can never block the
+  // is force-hidden after 3.6s regardless. This guarantees it can never block the
   // page indefinitely, even in an edge case this function's own timing doesn't cover.
-  window.setTimeout(() => loader.classList.add("is-hidden"), 2400);
+  window.setTimeout(() => loader.classList.add("is-hidden"), 3600);
 
   nodes.forEach((item, index) => {
     window.setTimeout(() => {
       item.node.classList.add("is-visible");
       if (item.line) item.line.classList.add("is-visible");
-    }, 200 + index * 150);
+    }, 300 + index * 280);
   });
 
-  const exitDelay = 200 + nodeCount * 150 + 300;
+  const exitDelay = 300 + nodeCount * 280 + 400;
   window.setTimeout(() => loader.classList.add("is-blinking"), exitDelay);
-  window.setTimeout(() => loader.classList.add("is-hidden"), exitDelay + 300);
+  window.setTimeout(() => loader.classList.add("is-hidden"), exitDelay + 400);
 }
 
 function createConstellationPoints(count) {

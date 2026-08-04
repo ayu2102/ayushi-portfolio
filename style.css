@@ -5704,6 +5704,7 @@ html[data-theme="dark"] .footer span {
   }
 
   html[data-theme="dark"] .hero {
+    padding-top: calc(134px + env(safe-area-inset-top));
     background:
       linear-gradient(90deg, rgba(24, 23, 18, 0.94), rgba(30, 28, 22, 0.82) 58%, rgba(8, 8, 7, 0.98)),
       #12110d !important;
