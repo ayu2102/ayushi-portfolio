@@ -11,221 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Space+Mono:wght@400;700&family=Permanent+Marker&display=swap" rel="stylesheet">
-<style>
-
-:root{--paper:#FBF7F0;--ink:#14110F;--body:#2E2923;--mute:#4F483F;--pink:#C8165B;--lime:#C8FF3D;--blue:#2B4BFF;--lilac:#E4DBFF;--glass:rgba(255,255,255,.74);color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-*,*::before,*::after{box-sizing:inherit}
-html{scroll-behavior:smooth;scroll-padding-top:90px}
-body{margin:0;background:var(--paper);color:var(--body);font-family:'Bricolage Grotesque',system-ui,sans-serif;font-size:17px;line-height:1.55;overflow-x:hidden}
-h1,h2,h3{color:var(--ink);margin:0}
-a{color:inherit}img{max-width:100%;height:auto}
-:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:8px}
-.mono{font-family:'Space Mono',monospace;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase}
-.mk{font-family:'Permanent Marker',cursive;font-weight:400}
-.wrap{max-width:1100px;margin:0 auto;padding:0 22px}
-#ld{position:fixed;inset:0;z-index:100;background:var(--paper);display:grid;place-items:center;transition:transform .9s cubic-bezier(.7,0,.2,1)}
-#ld.out{transform:translateY(-100%)}
-#ld svg.ls{position:absolute;inset:0;width:100%;height:100%}
-#ld line{stroke:var(--ink);stroke-width:2;stroke-dasharray:1;stroke-dashoffset:1;vector-effect:non-scaling-stroke;animation:draw .35s forwards}
-@keyframes draw{to{stroke-dashoffset:0}}
-.nd{position:absolute;width:34px;height:34px;transform:translate(-50%,-50%) scale(0);animation:pop .4s cubic-bezier(.3,1.6,.5,1) forwards}
-@keyframes pop{to{transform:translate(-50%,-50%) scale(1) rotate(12deg)}}
-#hw{position:relative;z-index:2;font-size:clamp(54px,12vw,130px);line-height:1;padding:.1em .3em;background:rgba(251,247,240,.85);border-radius:30px;color:var(--ink);min-width:3ch;text-align:center}
-#hw b{display:inline-block;font-weight:400;animation:wp .3s ease-out}
-@keyframes wp{from{transform:scale(.7) rotate(-6deg);opacity:0}}
-#sk{position:absolute;right:20px;bottom:calc(env(safe-area-inset-bottom,0px) + 20px);z-index:3}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 22px;border-radius:999px;font-weight:700;text-decoration:none;border:2px solid var(--ink);background:#fff;color:var(--ink);font-family:inherit;font-size:16px;cursor:pointer;transition:transform .15s}
-.btn:hover{transform:translateY(-2px)}
-.btn.p{background:var(--pink);color:#fff;box-shadow:4px 4px 0 var(--ink)}
-.btn.sm{min-height:40px;padding:0 16px;font-size:15px}
-nav.top{position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);left:50%;transform:translateX(-50%);z-index:30;width:calc(100% - 24px);max-width:1040px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 8px 6px 18px;background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1.5px solid rgba(20,17,15,.2);border-radius:999px}
-.logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:22px;letter-spacing:-.03em;text-decoration:none;color:var(--ink);min-height:44px}
-.logo svg{width:26px;height:26px}
-.links{display:flex;gap:2px}
-.links a{padding:0 14px;min-height:44px;display:flex;align-items:center;border-radius:999px;text-decoration:none;font-family:'Space Mono',monospace;font-size:14px;color:var(--ink)}
-.links a:hover{background:var(--lime)}
-.hero{position:relative;min-height:100svh;display:grid;place-items:center;padding:120px 0 70px;overflow:hidden}
-.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(20,17,15,.14) 1.2px,transparent 1.2px);background-size:26px 26px;opacity:.6}
-.blob{position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(255,61,129,.28),rgba(200,255,61,.22) 55%,transparent 70%);filter:blur(30px);left:50%;top:50%;transform:translate(-50%,-50%)}
-.hin{position:relative;z-index:3;text-align:center;max-width:700px;margin:0 22px;padding:30px 26px;border-radius:36px;background:rgba(251,247,240,.84);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-.chip{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:#fff;border:1.5px solid rgba(20,17,15,.25);border-radius:999px;font-size:15px;font-weight:600;color:var(--ink)}
-.dot{width:10px;height:10px;border-radius:50%;background:#12874A;flex:none}
-h1{font-size:clamp(36px,6.4vw,76px);line-height:1;letter-spacing:-.035em;font-weight:800;margin:20px 0 16px}
-.scrib{background:linear-gradient(transparent 62%,var(--lime) 62% 92%,transparent 92%)}
-.sub{font-size:clamp(17px,2.2vw,20px);max-width:580px;margin:0 auto 24px}
-.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.stk{position:absolute;z-index:2;width:176px;padding:12px 18px;border:1.5px solid rgba(20,17,15,.18);border-radius:22px;font-weight:700;font-size:15px;color:var(--ink);animation:bob 5s ease-in-out infinite}
-.stk b{display:block;font-weight:600;font-size:13px;color:var(--mute)}
-@keyframes bob{50%{transform:translateY(-8px) rotate(1.5deg)}}
-.s1{left:2.5%;top:24%;background:linear-gradient(135deg,#E4DBFF,#fff)}.s2{right:2.5%;top:24%;background:linear-gradient(135deg,#DDFF8A,#fff);animation-delay:-1.5s}
-.s3{left:3%;bottom:15%;background:linear-gradient(135deg,#FFC9DD,#fff);animation-delay:-3s}.s4{right:3%;bottom:15%;background:linear-gradient(135deg,#C9D3FF,#fff);animation-delay:-4s}
-section{padding:80px 0}
-.eyebrow{color:var(--pink);font-family:'Space Mono',monospace;font-size:13px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
-h2{font-size:clamp(34px,6vw,62px);line-height:1;letter-spacing:-.035em;font-weight:800;margin:10px 0 12px}
-.lead{max-width:600px;color:var(--mute);margin:0 0 34px}
-.proj{display:grid;grid-template-columns:minmax(260px,.85fr) 2fr;border:2px solid var(--ink);border-radius:34px;overflow:hidden;background:#fff;box-shadow:10px 10px 0 var(--ink);margin-bottom:46px}
-.pl{position:relative;padding:24px;color:#fff;display:flex;flex-direction:column;justify-content:space-between;gap:20px;min-height:380px}
-.num{font-size:clamp(70px,9vw,110px);font-weight:800;letter-spacing:-.05em;line-height:.9;text-align:right;color:rgba(255,255,255,.92)}
-.star{position:absolute;left:20px;top:20px;width:34px;height:34px}
-.mini{display:grid;gap:10px}
-.mr{display:flex;align-items:center;gap:10px;background:#fff;color:var(--ink);padding:11px 14px;border-radius:16px;font-weight:700;font-size:15px}
-.mr i{width:14px;height:14px;border-radius:50%;flex:none}
-.mr em{margin-left:auto;font-style:normal;font-family:'Space Mono',monospace;font-size:11px;padding:3px 9px;border-radius:999px;background:var(--lime);color:var(--ink);text-transform:uppercase}
-.mr em.d{background:var(--ink);color:#fff}.mr em.l{background:var(--lilac)}
-.tg{display:flex;flex-wrap:wrap;gap:8px}
-.tg span{background:rgba(20,17,15,.82);color:#fff;font-family:'Space Mono',monospace;font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;padding:8px 13px;border-radius:999px}
-.c1{background:linear-gradient(160deg,#4A62FF,#2438C9)}.c2{background:linear-gradient(160deg,#EE6C98,#C8265F)}.c3{background:linear-gradient(160deg,#8D74F0,#5B3FD0)}
-.pr{padding:30px 34px;display:flex;flex-direction:column}
-.ph{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:14px}
-.ph h3{font-size:clamp(30px,4vw,44px);letter-spacing:-.04em}
-.row{display:grid;grid-template-columns:120px 1fr;gap:18px;padding:16px 0;border-top:2px dashed rgba(20,17,15,.22)}
-.row .mono{color:var(--pink);font-weight:700;padding-top:4px}
-.row p{margin:0}
-.hl{background:linear-gradient(transparent 58%,var(--lime) 58%);font-weight:700;color:var(--ink)}
-.pf{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:auto;padding-top:18px;flex-wrap:wrap}
-.pf .mono{color:var(--mute);display:flex;gap:8px;align-items:center}
-.pf .mono::before{content:"";width:12px;height:12px;border-radius:3px;background:var(--blue)}
-.rt{display:grid;grid-template-columns:1.2fr 1fr;gap:30px;padding:40px;border:2px solid var(--ink);border-radius:38px;background:linear-gradient(135deg,#E4DBFF,#FFE0EC 55%,#EAFFB6);overflow:hidden}
-.rt p{max-width:520px}
-.bw{background:var(--glass);border:2px solid var(--ink);border-radius:28px;padding:22px;align-self:center;box-shadow:8px 8px 0 var(--lime)}
-.bar{height:16px;border-radius:99px;background:#fff;border:2px solid var(--ink);overflow:hidden;margin:12px 0}
-.bar i{display:block;height:100%;width:62%;background:linear-gradient(90deg,var(--pink),var(--lime))}
-.bw .tg span{background:#fff;color:var(--ink);border:1.5px solid var(--ink)}
-footer{background:var(--ink);color:#d9d2c6;padding:70px 0 26px;margin-top:40px}
-.ft{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}
-.ft h3{color:#fff;font-size:26px;letter-spacing:-.03em;display:flex;gap:10px;align-items:center}
-.ft p{max-width:380px;font-family:'Space Mono',monospace;font-size:13px;line-height:1.8;color:#b9b2a6}
-.ft a{text-decoration:none;font-family:'Space Mono',monospace;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#d9d2c6;min-height:44px;display:inline-flex;align-items:center}
-.big{font-size:clamp(70px,17vw,230px);font-weight:800;letter-spacing:-.04em;line-height:1;text-align:center;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.4);margin:40px 0 20px;user-select:none}
-.fb{border-top:1.5px dashed rgba(255,255,255,.25);padding-top:18px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:#b9b2a6}
-.up{position:fixed;right:18px;bottom:calc(env(safe-area-inset-bottom,0px) + 18px);z-index:20;width:54px;height:54px;border-radius:50%;background:var(--lime);border:2px solid var(--ink);display:grid;place-items:center;font-size:24px;text-decoration:none;color:var(--ink)}
-@media(max-width:1060px){.stk{width:auto;max-width:46%}.s1{left:14px;top:92px}.s2{right:14px;top:116px}.s3{left:14px;bottom:80px}.s4{right:14px;bottom:36px}.hero{padding:170px 0 130px}.hin{width:calc(100% - 44px);margin:0}}
-@media(max-width:820px){.proj,.rt{grid-template-columns:1fr}.pl{min-height:0}.row{grid-template-columns:1fr;gap:4px}.pr{padding:22px}.rt{padding:26px}.links a:nth-child(n+3){display:none}section{padding:60px 0}.stk{padding:9px 13px;font-size:14px}.stk b{font-size:12px}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:10px}.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-.cd{padding:24px;border:2px solid var(--ink);border-radius:26px;background:#fff}.cd h3{font-size:22px;letter-spacing:-.02em;margin-bottom:8px}.cd p{margin:0 0 10px}.cd .mono{color:var(--pink);font-weight:700}
-.g3 .c1{background:var(--lilac)}.g3 .c2{background:#FFE0EC}.g3 .c3{background:#DDFF8A}
-.nm{display:block;font-weight:800;font-size:30px;color:var(--pink);line-height:1;margin-bottom:10px}.k1{background:#fff}.k2{background:var(--lilac)}.k3{background:var(--lime)}.k4{background:#FFE0EC}
-.g2 .p1{background:var(--lime)}.g2 .cd p{color:var(--ink)}
-.abt{display:grid;grid-template-columns:240px 1fr;gap:34px;align-items:center}.abt img{width:100%;aspect-ratio:4/5;object-fit:cover;border:2px solid var(--ink);border-radius:32px;box-shadow:6px 6px 0 var(--lilac)}
-@media(max-width:900px){.g4{grid-template-columns:1fr 1fr}}@media(max-width:820px){.g3,.g2,.abt{grid-template-columns:1fr}.abt img{max-width:240px}}@media(max-width:520px){.g4{grid-template-columns:1fr}}
-
-/* inner pages */
-.view{padding:110px 0 60px}
-.back,.back-link{display:inline-flex;align-items:center;min-height:44px;font-weight:700;color:var(--ink);margin-bottom:10px;text-decoration-color:var(--pink);text-underline-offset:5px}
-
-.view h2{font-size:clamp(24px,3.4vw,32px);margin:0 0 10px}
-.view p,.view li{max-width:700px}
-.view ul{padding-left:22px}
-.kicker{display:inline-block;padding:4px 12px;border-radius:999px;background:var(--lime);border:1.5px solid var(--ink);font-size:14px;font-weight:700;color:var(--ink);margin:6px 0 0}
-.case-subtitle{font-size:20px;color:var(--mute);margin:0 0 18px}
-.case-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}
-.case-meta div{padding:14px 16px;border-radius:20px;background:var(--glass);border:1.5px solid rgba(20,17,15,.18)}
-.case-meta dt{font-size:13px;color:var(--mute);font-weight:600}
-.case-meta dd{font-weight:800;color:var(--ink)}
-.case-intro{font-size:19px}
-.article-body section{padding:34px 0 0}
-.case-label{display:inline-grid;place-items:center;min-width:40px;height:30px;padding:0 10px;margin:0 0 8px;border-radius:999px;background:var(--pink);color:#fff;font-weight:800;font-size:14px}
-.decision-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin:18px 0}
-.decision-grid>article{padding:20px;border-radius:22px;border:2px solid var(--ink);background:#fff}
-.decision-grid>article:nth-child(2n){background:var(--lilac)}.decision-grid>article:nth-child(3n){background:var(--lime)}
-.decision-grid h3{font-size:19px;margin:0 0 6px}.decision-grid p{margin:0}
-.chip-grid{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
-.chip-grid span{padding:8px 14px;border-radius:999px;background:#fff;border:1.5px solid var(--ink);font-weight:600;color:var(--ink);font-size:15px}
-.process-flow{list-style:none;padding:0;margin:16px 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
-.process-flow li{padding:14px;border-radius:20px;background:var(--glass);border:1.5px solid rgba(20,17,15,.2);font-weight:700;color:var(--ink)}
-.process-flow li span{display:block;color:var(--pink);font-size:14px}
-.evidence-block{margin:18px 0;padding:14px;border-radius:26px;border:2px solid var(--ink);background:#fff}
-.evidence-block img{display:block;width:100%;border-radius:16px}
-.evidence-block figcaption span{display:block;font-weight:800;color:var(--ink);margin-top:10px}
-.evidence-block figcaption p{margin:2px 0 0}
-.evidence-block figcaption h3{margin:6px 0}
-.visual-evidence-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-.protected-visual-placeholder{display:grid;gap:10px;padding:18px;border-radius:18px;background:linear-gradient(135deg,var(--lilac),#FFE0EC)}
-.protected-window{height:40px;border-radius:12px;background:rgba(255,255,255,.7)}
-.protected-visual-placeholder p{margin:0;font-weight:700;color:var(--ink)}
-.case-nav{display:flex;gap:12px;flex-wrap:wrap;margin-top:40px}
-.case-nav__item{display:block;flex:1;min-width:200px;padding:18px 20px;border-radius:22px;border:2px solid var(--ink);background:#fff;text-decoration:none;color:var(--ink);font-weight:800}
-.case-nav__item span:first-child{display:block;font-size:13px;color:var(--mute);font-weight:600}
-.box{padding:22px 24px;border-radius:24px;border:2px solid var(--ink);background:var(--lilac);margin:26px 0}
-.box p{margin:0;color:var(--ink)}
-.pager{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
-.arts,.poemlist{list-style:none;padding:0;margin:0 0 10px;display:grid;gap:12px}
-.arts a,.poemlist a{display:block;padding:18px 22px;border-radius:22px;border:2px solid var(--ink);background:#fff;text-decoration:none;color:var(--ink);font-weight:700}
-.arts a:hover,.poemlist a:hover{background:var(--lime)}
-.arts small,.poemlist small{display:block;font-weight:500;color:var(--mute)}
-.poem-body{font-size:clamp(17px,2.2vw,19px);line-height:1.5;white-space:pre-line;padding:24px 26px;border-radius:30px;background:var(--glass);border:2px solid var(--ink);max-width:640px;margin-top:20px;box-shadow:6px 6px 0 var(--lilac)}
-.poem-body em{font-style:italic}.poem-emphasis{background:linear-gradient(transparent 60%,var(--lime) 60%);font-weight:700}
-.six-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0}
-.six{padding:20px;border-radius:24px;border:2px solid var(--ink);background:#fff;min-height:130px}
-.six span{display:block;font-weight:800;font-size:30px;line-height:1;color:var(--pink)}
-.six h3{margin:12px 0 0;font-size:19px;line-height:1.25}
-.six:nth-child(2){background:var(--lilac)}.six:nth-child(3){background:var(--lime)}.six:nth-child(4){background:#FFE0EC}.six:nth-child(5){background:#DCE3FF}.six:nth-child(6){background:#fff}
-.board{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0}
-.bc{padding:22px;border-radius:26px;border:2px solid var(--ink);background:#fff}
-.bc h3{margin:12px 0 6px;font-size:22px}.bc p{margin:0}
-.bc.live{background:var(--lime);box-shadow:5px 5px 0 var(--ink)}.bc.now{background:var(--lilac)}.bc.next{background:var(--glass);border-style:dashed}
-.pill{display:inline-block;padding:3px 12px;border-radius:999px;background:var(--ink);color:#fff;font-size:14px;font-weight:700}
-.process-flow li{position:relative}
-@media(max-width:820px){.six-grid,.board{grid-template-columns:1fr 1fr}}
-@media(max-width:560px){.six-grid,.board{grid-template-columns:1fr}}
-
-.view h1{font-size:clamp(36px,7vw,64px);margin:6px 0 8px}
-.view .band h1{font-size:clamp(40px,8vw,72px);margin:8px 0 4px}
-.meta{color:var(--mute);font-size:15px;margin:0 0 14px}
-.tag{display:inline-block;padding:4px 12px;border-radius:999px;background:var(--lime);border:1.5px solid var(--ink);font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px}
-.box{padding:22px 24px;border-radius:24px;border:2px solid var(--ink);background:var(--lilac);margin:26px 0}.box p{margin:0;color:var(--ink)}.pager{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
-.back{display:inline-flex;align-items:center;min-height:44px;font-weight:700;color:var(--ink);text-underline-offset:5px;text-decoration-color:var(--pink)}
-.six-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0}
-.six{padding:20px;border-radius:24px;border:2px solid var(--ink);background:#fff;min-height:130px}
-.six span{display:block;font-weight:800;font-size:30px;line-height:1;color:var(--pink)}
-.six h3{margin:12px 0 0;font-size:19px;line-height:1.25}
-.six:nth-child(2){background:var(--lilac)}.six:nth-child(3){background:var(--lime)}.six:nth-child(4){background:#FFE0EC}.six:nth-child(5){background:#DCE3FF}.six:nth-child(6){background:#fff}
-.board{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0}
-.bc{padding:22px;border-radius:26px;border:2px solid var(--ink);background:#fff}
-.bc h3{margin:12px 0 6px;font-size:22px}.bc p{margin:0}
-.bc.live{background:var(--lime);box-shadow:5px 5px 0 var(--ink)}.bc.now{background:var(--lilac)}.bc.next{background:var(--glass);border-style:dashed}
-.pill{display:inline-block;padding:3px 12px;border-radius:999px;background:var(--ink);color:#fff;font-size:14px;font-weight:700}
-.process-flow li{position:relative}
-@media(max-width:820px){.six-grid,.board{grid-template-columns:1fr 1fr}}
-@media(max-width:560px){.six-grid,.board{grid-template-columns:1fr}}
-
-
-.vw{max-width:900px}
-dl{margin:0}dd{margin:2px 0 0}dt{font-weight:800;color:var(--ink)}.view p,.view li{max-width:700px}
-.band{position:relative;color:#fff;border:2px solid var(--ink);border-radius:30px;padding:30px;margin:6px 0 20px;overflow:hidden}
-.band .mono{opacity:.92;color:#fff}.band h1{color:#fff;font-size:clamp(40px,8vw,72px);margin:8px 0 4px}.band p{margin:0;color:#fff;font-size:19px}
-.bn{position:absolute;right:20px;top:6px;font-size:clamp(70px,14vw,130px);font-weight:800;letter-spacing:-.05em;line-height:1;color:rgba(255,255,255,.9)}
-.band.c1{background:linear-gradient(160deg,#4A62FF,#2438C9)}.band.c2{background:linear-gradient(160deg,#EE6C98,#C8265F)}.band.c3{background:linear-gradient(160deg,#8D74F0,#5B3FD0)}
-.case-meta{border:2px solid var(--ink);border-radius:24px;background:#fff;gap:0;overflow:hidden}
-.case-meta div{border:0;border-left:2px dashed rgba(20,17,15,.25);border-radius:0;background:transparent}.case-meta div:first-child{border-left:0}
-.case-meta dt{color:var(--pink);font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.07em;font-size:12px;font-weight:700}
-.steps{list-style:none;padding:0;margin:16px 0;display:grid;gap:14px}.steps li{display:flex;gap:14px;align-items:flex-start;max-width:720px}
-.steps b{flex:none;width:34px;height:34px;border:2px solid var(--ink);border-radius:50%;display:grid;place-items:center;font-size:14px;color:var(--ink);background:#fff}
-.steps strong{display:block;color:var(--ink)}
-.out{position:relative;margin:34px 0 10px;padding:28px 22px 20px;border:2px solid var(--ink);border-radius:24px;background:#F0FFC7}
-.out .mono{position:absolute;top:-16px;left:18px;background:var(--ink);color:var(--lime);padding:6px 16px;border-radius:999px}
-.out p{margin:0;color:var(--ink);font-size:19px;max-width:none}
-.qt{margin:34px 0 0;padding-top:22px;border-top:2px dashed rgba(20,17,15,.25);font-size:clamp(22px,3.4vw,30px);color:var(--blue);line-height:1.3}
-.qt small{display:block;margin-top:8px;color:var(--mute);font-family:'Space Mono',monospace}
-.chip-grid{counter-reset:c}.chip-grid--role span{counter-increment:c;display:inline-flex;align-items:center;gap:8px}.chip-grid--role span::before{content:counter(c);width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff;font-size:12px;display:grid;place-items:center;flex:none}
-.contact{text-align:center;padding:80px 22px;border-radius:40px;background:var(--blue);color:#fff;margin:0 0 20px}
-.contact h2{color:#fff;font-size:clamp(34px,6vw,60px)}.contact p{max-width:540px;margin:0 auto 26px;color:#fff}.contact .mk{color:var(--lime);font-size:24px;display:block;margin-bottom:8px}
-.contact .btn{border-color:#fff}.contact .btn.p{background:#fff;color:var(--ink);box-shadow:4px 4px 0 var(--lime)}.contact .btn:not(.p){background:transparent;color:#fff}
-@media(max-width:820px){.case-meta{grid-template-columns:1fr 1fr}.case-meta div:nth-child(3){border-left:0}}
-.narrow.wide{max-width:1040px}
-@media(min-width:900px){.poem-body{max-width:none;columns:2;column-gap:44px}}
-.shape{position:absolute;z-index:1;pointer-events:none;width:46px;height:46px;display:grid;place-items:center;font-size:44px;line-height:1;opacity:.8;animation:spop .5s ease-out both,sfade 2.4s 1.2s forwards}
-.shape.sq{border-radius:14px;width:38px;height:38px}.shape.ci{border-radius:50%;width:34px;height:34px}
-@keyframes spop{from{transform:scale(0) rotate(-60deg)}to{transform:scale(1) rotate(0)}}@keyframes sfade{to{opacity:0}}
-.hero{cursor:crosshair}.nold #ld{display:none}
-.skip{position:absolute;left:12px;top:-60px;background:var(--ink);color:#fff;padding:10px 16px;border-radius:10px;z-index:200}.skip:focus{top:calc(env(safe-area-inset-top,0px) + 8px)}
-.more{display:inline-block;margin-top:6px;font-weight:800;color:var(--ink);text-decoration-thickness:3px;text-decoration-color:var(--pink);text-underline-offset:5px;font-size:15px}
-@media(max-width:820px){.visual-evidence-grid{grid-template-columns:1fr}.case-meta{grid-template-columns:1fr 1fr}.case-meta div:nth-child(3){border-left:0}}
-@media(max-width:560px){nav.top{padding:5px 6px 5px 12px}.logo{font-size:19px;gap:6px}.logo svg:last-child{display:none}.links a{padding:0 8px;font-size:12px}nav.top .btn.sm{padding:0 12px;min-height:38px;font-size:14px}}
-.up{opacity:0;pointer-events:none;transition:opacity .2s}.up.show{opacity:1;pointer-events:auto}
-
-</style>
+<link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
 <script>try{if(sessionStorage.getItem("ld")||(location.hash&&location.hash!=="#top"))document.documentElement.classList.add("nold")}catch(e){}</script>
@@ -271,10 +57,10 @@ dl{margin:0}dd{margin:2px 0 0}dt{font-weight:800;color:var(--ink)}.view p,.view 
 <div class="row"><span class="mono">Outcome</span><p><span class="hl">A complete verification platform:</span> identity, education, employment, references, documents, consent, and location checks.</p></div>
 <div class="pf"><span class="mono">Associate UI/UX Designer</span><a class="btn" href="#factseal">Read the full case study →</a></div></div></article>
 </section>
-<section id="personal" style="padding-top:20px"><div class="rt"><div><div class="eyebrow">✦ Personal project · my own idea</div><h2>Rethink.</h2><p class="mk" style="color:var(--blue);font-size:22px;margin:0 0 12px">from a personal idea to a working prototype</p>
-<p>A tool for managing mental bandwidth: how much headspace you have, and what’s using it up. I picked the problem, checked it against the market, and shaped it from first idea to interactive prototype. It isn’t a to-do list, and it isn’t clinical mental health.</p>
-<div class="btns" style="justify-content:flex-start;margin-top:8px"><a class="btn p" href="#rethink">Read about Rethink</a><a class="btn" href="mailto:ayushiiatwork@gmail.com?subject=Rethink%20walkthrough">Ask for a walkthrough</a></div></div>
-<div class="bw" aria-hidden="true"><span class="mono" style="color:var(--pink);font-weight:700">✦ Concept sketch</span><h3 style="margin-top:8px;font-size:24px">How much can you carry today?</h3><div class="bar"><i></i></div><div class="tg"><span>Focus</span><span>Social</span><span>Decisions</span></div></div></div></section>
+<section id="personal" style="padding-top:20px"><div class="rt"><div><div class="eyebrow">✦ Personal project · my own idea</div><h2>Rethink.</h2><p class="mk" style="color:var(--blue);font-size:22px;margin:0 0 12px">my own idea, designed end to end</p>
+<p>Attention management, not task management. Rethink takes everything competing for your attention and works out what each thing really is: an action, a reminder, a goal, or an open question. Then it helps you choose what deserves your focus. I picked the problem, checked it against the market, and designed it myself. It’s a concept, not a launched product.</p>
+<div class="btns" style="justify-content:flex-start;margin-top:8px"><a class="btn p" href="https://wem5dn-owq4othgh-arcadawebapps2.vercel.app" target="_blank" rel="noopener noreferrer">Try Rethink ↗</a><a class="btn" href="#rethink">Read more about Rethink</a></div></div>
+<div class="bw" aria-hidden="true"><span class="mono" style="color:var(--pink);font-weight:700">✦ From the site</span><h3 style="margin-top:8px;font-size:24px">You don’t have four tasks.</h3><p style="margin:8px 0 12px;color:var(--ink)">You have an action, a reminder, a goal, and an open question.</p><div class="tg"><span>Action</span><span>Reminder</span><span>Goal</span><span>Open question</span></div></div></div></div></section>
 <section id="teardowns" style="padding-top:20px"><div class="eyebrow">✦ Teardowns</div><h2>How I think about products</h2><p class="lead">A small collection of product observations where I study familiar interfaces, identify hidden friction, and propose focused improvements.</p><div class="g3"><div class="cd c1"><h3>Windows 11</h3><p>Familiar systems can still create friction when old patterns and newer behaviours sit side by side.</p><a class="more" href="#teardown-windows11">Read the teardown →</a></div><div class="cd c2"><h3>IRCTC</h3><p>A high-pressure booking experience where people need context, reassurance, and clearer journey states.</p><a class="more" href="#teardown-irctc">Read the teardown →</a></div><div class="cd c3"><h3>Google Pay</h3><p>Fast payments still need visible feedback, clear confirmation, and moments that build trust.</p><a class="more" href="#teardown-gpay">Read the teardown →</a></div></div></section><section id="care"><div class="eyebrow">✦ Approach</div><h2>What I care about</h2><p class="lead" style="margin-bottom:12px">I believe good products don’t ask users to think harder — they remove unnecessary thinking altogether.</p><p class="lead">Whether I’m designing enterprise software, internal tools, or customer-facing products, I’m interested in reducing complexity before adding functionality. Every decision begins with understanding how people think, what slows them down, and how the experience can become more intuitive without becoming simplistic.</p><div class="g4"><div class="cd k1"><span class="nm">01</span><h3>Systems Thinking</h3><p>Every interface belongs to a larger ecosystem. I look at relationships between screens, workflows, states, and people before refining visuals.</p></div><div class="cd k2"><span class="nm">02</span><h3>Accessibility</h3><p>Accessible design is not a compliance layer. It improves clarity, hierarchy, usability, and trust for everyone.</p></div><div class="cd k3"><span class="nm">03</span><h3>Clarity</h3><p>The best products feel obvious. Behind that simplicity is structure, prioritization, and careful removal of unnecessary decisions.</p></div><div class="cd k4"><span class="nm">04</span><h3>Decision Clarity</h3><p>Every unnecessary decision creates friction. I design to reduce choices, surface what matters, and help people move forward with confidence.</p></div></div></section><section id="principles" style="padding-top:20px"><div class="eyebrow">✦ Design principles</div><h2>Principles I don’t compromise on</h2><p class="lead">The rules I return to when complexity, constraints, and competing priorities demand a clearer decision.</p><div class="g2"><div class="cd p0"><h3>Don’t Break What Already Works.</h3><p>Existing behavior carries trust. Improve carefully before replacing familiar patterns.</p></div><div class="cd p1"><h3>Reduce Cognitive Load.</h3><p>Users should spend energy on their goal, not on understanding the interface.</p></div><div class="cd p0"><h3>Build Systems, Not Screens.</h3><p>A good screen solves one moment. A good system keeps the product coherent as it grows.</p></div><div class="cd p1"><h3>Reduce, Then Refine.</h3><p>Remove unnecessary complexity before polishing the details that remain.</p></div></div></section><section id="about"><div class="abt"><img src="assets/ayushi-portrait.png" alt="Portrait of Ayushi" loading="lazy"><div><div class="eyebrow">✦ About</div><h2>The hours that don’t belong to work.</h2><p>Outside of product design, I spend a lot of time observing people, writing fragments of thought, and noticing the small details that make experiences stay with us.</p><p>I’m fascinated by the psychology of decision-making—the invisible cues that make people hesitate, commit, trust, or turn away.</p><p>Design is one way I make sense of complexity. Writing is another.</p><div class="btns" style="justify-content:flex-start"><a target="_blank" rel="noopener noreferrer" class="btn" href="assets/Ayushi-Resume.pdf">Download resume ↗</a><a class="btn" href="#writing">Explore writing ↗</a></div></div></div></section>
 <section id="contact" style="padding-top:0"><div class="contact"><span class="mk">let’s talk</span><h2>I’m just a message away. Come say hi.</h2><p>Questions, ideas, opportunities. My inbox handles all three. Based in Delhi, open to hybrid or remote.</p><div class="btns"><a class="btn p" href="mailto:ayushiiatwork@gmail.com">ayushiiatwork@gmail.com</a><a target="_blank" rel="noopener noreferrer" class="btn" href="https://www.linkedin.com/in/ayushiiatwork/">LinkedIn</a><a class="btn" href="#writing">Writing</a></div></div></section>
 </main></div>
@@ -693,18 +479,17 @@ dl{margin:0}dd{margin:2px 0 0}dt{font-weight:800;color:var(--ink)}.view p,.view 
     </article>
   </article>
 <article class="view" id="v-rethink" hidden>
-<a class="back" href="#work">Back to work</a><br>
+<a class="back" href="#personal">Back to home</a><br>
 <span class="tag">Personal project · my own idea</span>
 <h1 tabindex="-1">Rethink</h1>
-<p class="meta">0-to-1 product · Self-initiated</p>
-<h2>What it is</h2>
-<p>A tool for managing mental bandwidth: how much headspace you have, and what’s using it up. It isn’t a to-do list, and it isn’t clinical mental health.</p>
-<h2 style="margin-top:28px">Why I started it</h2>
-<p>Most productivity tools ask what you need to do. I wanted one that asks how much you can actually carry today.</p>
-<h2 style="margin-top:28px">What I’ve done so far</h2>
-<ul><li>Checked the idea against Indian market data and the competitive landscape.</li><li>Confirmed nine features across phases, with a smaller Phase 1 set and later v2 features.</li><li>Built three interactive HTML prototypes to test the flows.</li></ul>
-<div class="box"><p>Rethink is still in progress, so I’m not showing finished screens yet. Want a walkthrough of the prototypes? Email me and I’ll share them.</p></div>
-<div class="pager"><a class="btn p" href="mailto:ayushiiatwork@gmail.com?subject=Rethink%20walkthrough">Ask for a walkthrough</a><a class="btn" href="#work">Back to work</a></div>
+<p class="meta">Attention management, not task management · Concept</p>
+<h2>The idea</h2>
+<p>The problem isn’t that you have too much to do. It’s that too many things are asking for your attention at once. Most tools ask what you have to do. Rethink first asks what each thought actually is: an action, a decision, a reminder, or something you’re waiting on.</p>
+<h2 style="margin-top:28px">How it works: four movements, one quiet loop</h2>
+<ol class="steps"><li><b>1</b><span><strong>Dump</strong>Get everything out of your head. No formatting, no folders, no structure needed.</span></li><li><b>2</b><span><strong>Understand</strong>Not everything in your head is a task. Rethink works out what each thought is.</span></li><li><b>3</b><span><strong>Prioritize</strong>Decide what deserves your attention. The suggestions are yours to change.</span></li><li><b>4</b><span><strong>Resurface</strong>Forget without losing. Things that don’t matter now leave the active space and return when they’re relevant.</span></li></ol>
+<h2 style="margin-top:28px">Where it stands</h2>
+<ul><li>Checked the idea against Indian market data and the competitive landscape.</li><li>Confirmed nine features across phases, with a smaller Phase 1 set and later v2 features.</li><li>Built a website that explains the idea, with a small interactive demo of the first step. It is a concept, not a launched product.</li></ul>
+<div class="pager"><a class="btn p" href="https://wem5dn-owq4othgh-arcadawebapps2.vercel.app" target="_blank" rel="noopener noreferrer">Try Rethink ↗</a><a class="btn" href="mailto:ayushiiatwork@gmail.com?subject=Rethink%20walkthrough">Ask for a walkthrough</a><a class="btn" href="#personal">Back to home</a></div>
 </article><article class="view" id="v-writing" hidden>
 <a class="back" href="#contact">Back to home</a>
 <h1 tabindex="-1">Writing beyond the interface.</h1>
@@ -727,67 +512,6 @@ dl{margin:0}dd{margin:2px 0 0}dt{font-weight:800;color:var(--ink)}.view p,.view 
 <div class="big" aria-hidden="true">AYUSHI</div>
 <div class="fb"><span>© 2026 Ayushi · Delhi, India</span><span>Designed between meetings and too many tabs</span></div></div></footer>
 <a class="up" href="#top" aria-label="Back to top">↑</a>
-<script>
-(function(){
-var POEMS=[{"title":"Unfinished","bodyHtml":"I met him like a breeze on fire—\n\ncalm in chaos, soft in desire.\n\nHe didn’t speak much, didn’t try to shine,\n\nbut still, his silence fell in line.\n\nWhere the world was noise, he moved like peace,\n\nturning my restless into quiet release.\n\nNot a savior, not a spark—\n\njust the kind of light that stays in the dark.\n\nI burned too fast, I broke too loud,\n\nbut he never flinched, never looked proud.\n\nHe let me rage, let me fall apart,\n\nTaught me code with patient grace,\n\nthen stitched me back without a start.\n\nand left soft truths in every space.\n\n\"Try again,\" he’d whisper near,\n\nas if my doubts were his to clear.\n\nWe laughed in corners, shared cheap meals,\n\nskipped the rules, rewrote the feels.\n\nHe never promised, never planned—\n\nbut somehow always took my hand.\n\nHe never drew hearts, but he drew <em>me</em>,\n\nin lines that only he could see.\n\nA notebook full of all my moods,\n\nmy glances, flaws, and quiet broods.\n\nAnd when he gave me that sketch one day—\n\nmy face in graphite, soul in gray—\n\nI knew I’d been seen in ways so true,\n\nthat even I forgot what I once knew.\n\nNo grand confessions, no loud decree,\n\njust a mirror of who I could be.\n\nHe made me feel like less was more,\n\nlike I was art, not just a war.\n\nAnd maybe he was never mine to keep,\n\nbut some loves don’t fade—they sleep.\n\nIn every line I write today,\n\nhis echo moves in what I say.\n\nSo if you ask what calmed my flame—\n\nit wasn’t time, or change, or name.\n\nIt was a man who simply stayed,\n\nwhile I was loud, and wild, and frayed.\n\nAnd maybe now, we drift like stars,\n\norbiting memory behind our scars.\n\nBut every time the silence grows—\n\nthere's still one name my heart half-knows.\n\nI don’t say it. I don’t have to.\n\nThe sketch still rests where it always did.\n\nFolded, fading, but never hid.\n\nHe was never just a chapter…\n\nHe was the page that turned me.\n\nAnd maybe that’s how some stories stay—\n\nunfinished, quiet, tucked away.\n\nNot meant to end or reappear,\n\njust held, like breath, forever near."},{"title":"The Break","bodyHtml":"He sat there calm, in clothes too neat,\n\nthe rare days he dressed just to compete\n\nwith my teasing smile and quiet awe—\n\nhe never liked the spotlight, but I saw.\n\nHe wasn’t fire, he wasn’t frost,\n\njust a steady warmth I never lost.\n\nAnd that night, when silence filled the room,\n\nI knew we’d built this love to doom.\n\nI said the words I’d practiced long—\n\nall wrapped in logic, none of it strong.\n\n“I need space,” I lied to save my pride,\n\nwhile everything in me just wanted to hide.\n\nHe didn’t fight, just let me speak,\n\nhis heartbreak showing, subtle and sleek.\n\nAs if my leaving wasn’t a surprise—\n\nhe’d seen the storm behind my eyes.\n\nNo anger flared, no voices raised,\n\njust soft regret in the way he gazed.\n\nAnd when I paused, unsure what to say,\n\nhe folded pain in a gentle “It’s okay.”\n\nHe’d write me letters on birthdays past,\n\nwhere his quiet heart spoke loud and fast.\n\nNo fancy words, no grand display—\n\njust simple truths that found their way.\n\nHe planned short trips just to escape,\n\nto see my smile reshape its shape.\n\nHe made me Maggie when I was ill—\n\nand nothing since has fit that bill.\n\nIt wasn’t gourmet, it wasn’t grand,\n\nbut it tasted like his trembling hand.\n\nA boy with love instead of wealth,\n\nwho cooked with fear but served with stealth.\n\nI used to cling while he worked or read,\n\ndistract his calm with chaos I fed.\n\nBut he’d never push or sigh too loud—\n\nhe let me be my storm and cloud.\n\nHe’d eat what I cooked with childish glee,\n\nas if each meal was a part of me.\n\nEven the worst dish, he’d praise like art—\n\nhe always knew how to warm my heart.\n\nAnd always, always, he dropped me first,\n\nhis own way home could wait, reversed.\n\nHis love was quiet, but fiercely bold—\n\nhe fought for me in ways untold.\n\n<span class=\"poem-emphasis\">But I was afraid of being truly seen,</span>\n\nof how safe love felt, of what that could mean.\n\nSo I filled my days and dodged the still,\n\nkept busy enough to outrun what I feel.\n\nI wore strength like it was a skin-tight lie,\n\nsmiled at peace but passed it by.\n\nAnd he—he stood there, offering grace,\n\nwhile I kept moving, just to leave no trace.\n\nHe dreamed of life where we could grow,\n\nbut I clipped the roots I couldn't show.\n\nI feared I'd hold him back from more,\n\nso I left him love, but closed the door.\n\nNow I walk with echoes stitched in skin,\n\nwith guilt that hums beneath my grin.\n\nHe’s not beside me, but he still appears\n\nin every quiet room that holds my fears.\n\nHe didn’t beg, but he didn’t leave—\n\nhe stayed in all I still believe.\n\nNo grand goodbye, no closing line,\n\njust paused breath and borrowed time.\n\nAnd some nights, I still feel him near—\n\nin the weight of silence, too soft to hear.\n\nHe gave me peace I couldn’t yet keep,\n\nso I buried him somewhere quiet and deep.\n\nAnd I still flinch at the sound of his name—\n\nnot from hurt, but from carrying the blame.\n\nI walked away while he held the light,\n\nafraid of a love that felt too right.\n\nNow he lives in the pauses between my days,\n\nin half-said prayers and unwritten phrase.\n\nAnd though I left, the truth remains—\n\nyou never forget the one who stayed through pain."},{"title":"Becoming","bodyHtml":"There was a time I lost my way,\n\nkept shrinking just to make them stay.\n\nCalled it love when it felt like pain,\n\nkept dancing in the same old rain.\n\nI thought that care was control in disguise,\n\nbelieved their “nature” over my eyes.\n\nBut peace arrived the day I learned,\n\nnot every touch means being concerned.\n\nI packed my tears, I left that space,\n\nno guilt, no fight, just quiet grace.\n\nI learned to eat alone, to heal,\n\nto trust the things my heart can feel.\n\nI travelled more, I met new skies,\n\nfound joy in small hellos and goodbyes.\n\nLifted weights, took care, got strong,\n\nI sang my truth, my kind of song.\n\nI cut my hair, I changed my tone,\n\nI built a life that felt my own.\n\nSome days still ache, some nights still cry,\n\nbut I’ve stopped asking people “why”.\n\nFour years later — here I stand,\n\na softer soul, a steadier hand.\n\nNot waiting now for love to start,\n\nI’ve made a home inside my heart.\n\nI found my calm in the quietest fight,\n\nMy voice in the dark, my truth in the light.\n\nI’m not who I was, yet still made of her part —\n\nBecoming myself was the bravest start.\n\nAnd if love knocks again someday,\n\nIt’ll meet the woman who learned to stay."},{"title":"I don't do almost","bodyHtml":"I don’t do almost… I guess I never have,\n\nnot after the kind of love I’ve always had.\n\nIt was never loud, but it was always clear,\n\nit didn’t disappear just to reappear.\n\nI never had to ask if it meant what it said,\n\nit showed up the same in silence and text.\n\nCarry me gently, but don’t let me fall,\n\nI have been loved deeply, I remember it all.\n\nSo I won’t unlearn what I’ve always known,\n\nI won’t call distance a place called home.\n\nI won’t shrink love to make it stay,\n\nor beg for the bare minimum to feel okay.\n\nAnd if I’m quiet, don’t fill the air,\n\njust sit beside me like you care.\n\nNo need to fix, no need to prove,\n\njust stay consistent in how you move.\n\nBecause I love in ways that don’t come light,\n\nI don’t sit guessing what you might mean,\n\nI’ve lived in a world where love is seen.\n\nIf you care, it shows, it doesn’t hide,\n\nit doesn’t keep shifting from side to side.\n\nI don’t half-feel, I don’t half-write,\n\nwhen I’m yours, I’m deeply, fiercely true,\n\nand I multiply love when I give it to you.\n\nAnd I don’t need perfect, I don’t need grand,\n\njust someone honest, someone who stands,\n\nsomeone kind in the way they choose,\n\nsomeone careful with what they could lose.\n\nSo if you come close, come sure, come real,\n\ncome ready to match what I can feel,\n\nBecause I don’t chase love that falls apart,\n\nor hold onto things that confuse the heart.\n\nI don’t sit with anything I have to doubt,\n\nI want something simple that figures me out.\n\nI’ll meet you right there, just as I am,\n\nwith quiet strength you’ll understand.\n\nI don’t stay where it feels less than true,\n\nI only move where the energy’s due\n\nI don’t bend for less than what I see,\n\nI know the kind of life that’s meant for me.\n\nIf it’s aligned, I give it my all…\n\nif it isn’t, I let it fall."}];
-var CASES=["wordsynk","path2study","factseal"];
-var TITLES={rethink:"Rethink",writing:"Writing","teardown-windows11":"Windows 11 teardown","teardown-irctc":"IRCTC teardown","teardown-gpay":"Google Pay teardown",wordsynk:"WordSynk",path2study:"Path2Study",factseal:"FactSeal"};
-var home=document.getElementById('home'),views=document.getElementById('views'),first=true;
-var pl=document.getElementById('poemList');
-POEMS.forEach(function(p,i){pl.insertAdjacentHTML('beforeend','<li><a href="#poem-'+(i+1)+'">'+p.title+'<small>Open poem</small></a></li>')});
-function show(id){
-document.querySelectorAll('#views>article').forEach(function(a){a.hidden=true});
-document.getElementById(id).hidden=false}
-function route(){
-var h=location.hash.slice(1),m=/^poem-(\d+)$/.exec(h),view=null,title=null;
-if(m&&POEMS[m[1]-1]){var n=+m[1],p=POEMS[n-1];
-document.getElementById('poemTitle').textContent=p.title;
-document.getElementById('poemBody').innerHTML=p.bodyHtml.replace(/\n{2,}/g,'\n').trim();
-document.getElementById('poemPrev').href='#poem-'+(n>1?n-1:POEMS.length);
-document.getElementById('poemNext').href='#poem-'+(n<POEMS.length?n+1:1);
-view='v-poem';title=p.title}
-else if(h==='verses-page'){location.replace('#writing');return}
-else if(TITLES[h]){view='v-'+h;title=TITLES[h]}
-if(view){views.classList.toggle('wide',view==='v-poem');show(view);home.hidden=true;views.hidden=false;window.scrollTo(0,0);
-document.title=title+' – Ayushi, Product Designer';
-var hd=document.querySelector('#'+view+' h1');if(hd&&!first)hd.focus({preventScroll:true})}
-else{views.hidden=true;home.hidden=false;document.title='Ayushi – Product Designer';
-var el=h&&document.getElementById(h);if(el)el.scrollIntoView();else if(!first)window.scrollTo(0,0)}
-first=false}
-window.addEventListener('hashchange',route);route();
-var ld=document.getElementById('ld'),ls=document.getElementById('ls'),hw=document.getElementById('hw'),T=[],run=0;
-var W=["Hello","Hola","Bonjour","Namaste","Ciao","Hallo","Hej","Salaam","Konnichiwa","Ni hao"];
-var P=[[10,20],[28,10],[46,26],[64,12],[88,18],[82,52],[62,76],[40,64],[20,84],[8,56]];
-var C=['#C8165B','#2B4BFF','#14110F','#C8165B','#2B4BFF'];
-var STAR='<svg viewBox="0 0 24 24"><path d="M12 1.5l2.6 8 8 2.5-8 2.5-2.6 8-2.6-8-8-2.5 8-2.5z" fill="FILL" stroke="#14110F" stroke-width="1.4" stroke-linejoin="round"/></svg>';
-function end(){ld.classList.add('out');document.body.style.overflow='';setTimeout(function(){ld.style.visibility='hidden'},1000)}
-function ln(q,p){ls.insertAdjacentHTML('beforeend','<line x1="'+q[0]+'" y1="'+q[1]+'" x2="'+p[0]+'" y2="'+p[1]+'" pathLength="1"/>')}
-function start(){run++;var id=run;T.forEach(clearTimeout);T=[];
-ld.style.visibility='visible';ld.classList.remove('out');ls.innerHTML='';[].slice.call(ld.querySelectorAll('.nd')).forEach(function(n){n.remove()});hw.textContent='';
-if(matchMedia('(prefers-reduced-motion: reduce)').matches){end();return}
-document.body.style.overflow='hidden';
-W.forEach(function(w,i){T.push(setTimeout(function(){if(id!==run)return;
-hw.innerHTML='<b>'+w+'</b>';hw.style.color=C[i%C.length];
-var p=P[i],d=document.createElement('div');d.className='nd';d.style.left=p[0]+'%';d.style.top=p[1]+'%';d.innerHTML=STAR.replace('FILL',['#C8FF3D','#fff','#FFA6C9','#C9B8FF'][i%4]);ld.appendChild(d);
-if(i>0)ln(P[i-1],p)},i*360))});
-T.push(setTimeout(function(){ln(P[P.length-1],P[0]);hw.innerHTML='<b>Ayushi</b>';hw.style.color='#14110F'},W.length*360));
-T.push(setTimeout(end,W.length*360+900))}
-document.getElementById('sk').onclick=function(){T.forEach(clearTimeout);run++;end()};
-if(!document.documentElement.classList.contains('nold')){try{sessionStorage.setItem('ld','1')}catch(e){}start()}
-
-var hero=document.getElementById('top'),glow=document.getElementById('glow');
-hero.addEventListener('pointermove',function(e){var r=hero.getBoundingClientRect();glow.style.left=(e.clientX-r.left)+'px';glow.style.top=(e.clientY-r.top)+'px'});
-var shapes=[['♥','#FFA6C9'],['★','#C9B8FF'],['','#D6FF7A','ci'],['','#AFC0FF','sq']],si=0;
-hero.addEventListener('click',function(e){
-if(e.target.closest('a,button'))return;
-var r=hero.getBoundingClientRect(),d=shapes[si++%4],s=document.createElement('span');
-s.className='shape '+(d[2]||'');s.setAttribute('aria-hidden','true');s.textContent=d[0];
-s.style.color=d[1];if(d[2])s.style.background=d[1];
-s.style.left=(e.clientX-r.left-20)+'px';s.style.top=(e.clientY-r.top-20)+'px';
-hero.appendChild(s);setTimeout(function(){s.remove()},3800)});
-var up=document.querySelector('.up');function su(){up.classList.toggle('show',window.scrollY>600)}window.addEventListener('scroll',su,{passive:true});su();
-})();
-
-</script>
+<script src="script.js?v=6"></script>
 </body>
 </html>
